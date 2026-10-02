@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --principal: #7b2d26;
+    --secundaria: #d97706;
+    --fundo: #fff8f0;
+    --texto: #333;
+    --branco: #fff;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: var(--principal);
+    color: var(--branco);
+    text-align: center;
+    padding: 25px;
+}
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+nav {
+    margin-top: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #ffd9a0;
+}
+
+main {
+    flex: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+main > section {
+    text-align: center;
+}
+
+main > section h2 {
+    margin-bottom: 20px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card-menu {
+    background: var(--branco);
+    padding: 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--texto);
+    box-shadow: 0 2px 8px #0002;
+    transition: 0.2s;
+}
+
+.card-menu:hover {
+    transform: translateY(-4px);
+}
+
+.card-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.card-menu h2 {
+    color: var(--principal);
+}
+
+.card-menu p {
+    margin-top: 10px;
+}
+
+aside {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-left: 5px solid var(--secundaria);
+    border-radius: 8px;
+}
+
+footer {
+    background: var(--principal);
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias - DEVORA </title>
+    <link rel="stylesheet" href="categoria.css">
+</head>
+
+<body onload="listar()">
+
+    <header>
+        <h1>🏷️ Categorias de Pratos</h1>
+        <p>Organize os pratos do guia gastronômico.</p>
+
+        <nav>
+            <a href="../menu/menu.html">Início</a>
+            <a href="../pratos/pratos.html">Pratos</a>
+            <a href="../categoria/categoria.html">Categorias</a>
+            <a href="../usuario/usuario.html">Usuários</a>
+            <a href="../medida/medida.html">Medidas</a>
+        </nav>
+    </header>
+
+    <main class="container-master">
+
+        <section class="form-esquerda">
+            <h2>Dados da Categoria</h2>
+
+            <label for="inputId_categoria">ID da Categoria</label>
+
+            <div class="linha-id">
+                <input type="number" id="inputId_categoria" placeholder="Ex: 1">
+
+                <input type="button" value="Procurar"
+                    id="btProcure" onclick="procure()">
+
+                <input type="button" value="Inserir"
+                    id="btInserir" onclick="inserir()" style="display:none;">
+
+                <input type="button" value="Alterar"
+                    id="btAlterar" onclick="alterar()" style="display:none;">
+
+                <input type="button" value="Excluir"
+                    id="btExcluir" onclick="excluir()" style="display:none;">
+            </div>
+
+            <label for="inputNome_categoria">Nome da Categoria</label>
+
+            <input type="text"
+                id="inputNome_categoria"
+                placeholder="Ex: Massas, Sobremesas, Bebidas">
+
+            <div id="divAviso">
+                Informe o ID da categoria e clique em Procurar.
+            </div>
+
+            <div class="botoes-acao">
+                <input type="button"
+                    value="Salvar"
+                    id="btSalvar"
+                    onclick="salvar()"
+                    style="display:none;">
+
+                <input type="button"
+                    value="Cancelar"
+                    id="btCancelar"
+                    onclick="cancelarOperacao()"
+                    style="display:none;">
+            </div>
+        </section>
+
+        <section class="lista-categorias">
+            <h2>Categorias cadastradas</h2>
+            <div id="outputSaida">Carregando...</div>
+        </section>
+
+        <aside>
+            <h3>💡 Dica</h3>
+            <p>
+                Use categorias para facilitar a organização dos pratos.
+            </p>
+        </aside>
+
+    </main>
+
+    
+    <script src="./categoria.js"></script>
+
+</body>
+</html>

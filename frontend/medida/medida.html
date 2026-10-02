@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidas - DEVORA</title>
+    <link rel="stylesheet" href="medida.css">
+</head>
+
+<body onload="listar()">
+
+    <header>
+        <h1>📏 Medidas dos Pratos</h1>
+        <p>Gerencie as unidades utilizadas nas informações gastronômicas.</p>
+
+        <nav>
+            <a href="../menu/menu.html">Início</a>
+            <a href="../prato/prato.html">Pratos</a>
+            <a href="../categoria/categoria.html">Categorias</a>
+            <a href="../pessoa/pessoa.html">Usuários</a>
+            <a href="../medida/medida.html">Medidas</a>
+        </nav>
+    </header>
+
+    <main class="container-master">
+
+        <section class="form-esquerda">
+
+            <h2>Dados da Medida</h2>
+
+            <label for="inputId_medida">
+                Sigla da Medida
+            </label>
+
+            <div class="linha-id">
+
+                <input type="text"
+                    id="inputId_medida"
+                    maxlength="2"
+                    placeholder="Ex: KG">
+
+                <input type="button"
+                    value="Procurar"
+                    id="btProcure"
+                    onclick="procure()">
+
+                <input type="button"
+                    value="Inserir"
+                    id="btInserir"
+                    onclick="inserir()"
+                    style="display:none;">
+
+                <input type="button"
+                    value="Alterar"
+                    id="btAlterar"
+                    onclick="alterar()"
+                    style="display:none;">
+
+                <input type="button"
+                    value="Excluir"
+                    id="btExcluir"
+                    onclick="excluir()"
+                    style="display:none;">
+
+            </div>
+
+            <label for="inputNome_medida">
+                Nome da Medida
+            </label>
+
+            <input type="text"
+                id="inputNome_medida"
+                placeholder="Ex: Quilograma">
+
+            <div id="divAviso">
+                Informe a sigla e clique em Procurar.
+            </div>
+
+            <div class="botoes-acao">
+
+                <input type="button"
+                    value="Salvar"
+                    id="btSalvar"
+                    onclick="salvar()"
+                    style="display:none;">
+
+                <input type="button"
+                    value="Cancelar"
+                    id="btCancelar"
+                    onclick="cancelarOperacao()"
+                    style="display:none;">
+
+            </div>
+
+        </section>
+
+        <section class="lista-unidades">
+
+            <h2>Medidas cadastradas</h2>
+
+            <div id="outputSaida">
+                Carregando...
+            </div>
+
+        </section>
+
+        <aside>
+            <h3>🍽️ Exemplos</h3>
+            <p>KG, G, ML e UN podem representar diferentes porções.</p>
+        </aside>
+
+    </main>
+
+   
+    <script src="./medida.js"></script>
+
+</body>
+</html>
