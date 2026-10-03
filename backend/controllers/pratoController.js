@@ -208,14 +208,14 @@ exports.uploadImagem = async (req, res) => {
 
     const caminhoDestino = path.join(
       pastaImagens,
-      `${id}.png`
+      `${id}.jpg`
     );
 
     await sharp(req.file.buffer)
       .resize(300, 300, {
         fit: 'cover'
       })
-      .toFormat('png')
+      .toFormat('jpg')
       .toFile(caminhoDestino);
 
     res.json({
@@ -245,7 +245,7 @@ exports.deletarPrato = async (req, res) => {
     const imgPath = path.join(
       __dirname,
       '../../imagens',
-      `${id}.png`
+      `${id}.jpg`
     );
 
     if (fs.existsSync(imgPath)) {

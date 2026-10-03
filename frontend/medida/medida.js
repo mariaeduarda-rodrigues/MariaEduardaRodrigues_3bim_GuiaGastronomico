@@ -2,6 +2,7 @@ const URL_API = 'http://localhost:3000';
 
 let oQueEstaFazendo = '';
 let unidadeMedida = null;
+
 bloquearAtributos(true);
 
 async function procurePorChavePrimaria(chave) {
@@ -16,6 +17,7 @@ async function procurePorChavePrimaria(chave) {
 
 async function procure() {
     const id_medida = document.getElementById("inputId_medida").value.trim().toUpperCase();
+
     if (!id_medida || id_medida.length > 2) {
         mostrarAviso("O ID/Sigla deve conter de 1 a 2 caracteres (ex: KG, UN).");
         return;
@@ -24,7 +26,7 @@ async function procure() {
     document.getElementById("inputId_medida").value = id_medida;
     unidadeMedida = await procurePorChavePrimaria(id_medida);
     oQueEstaFazendo = '';
-    
+
     if (unidadeMedida) {
         mostrarDadosUnidade(unidadeMedida);
         visibilidadeDosBotoes('inline', 'none', 'inline', 'inline', 'none');
@@ -60,27 +62,31 @@ function excluir() {
 async function salvar() {
     const id_medida = document.getElementById("inputId_medida").value.trim().toUpperCase();
     const nome_medida = document.getElementById("inputNome_medida").value;
-
     const dadosUnidade = { id_medida, nome_medida };
 
     try {
         if (oQueEstaFazendo === 'inserindo') {
-            const resp = await fetch(`${URL_API}/medida`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosUnidade) });
+            const resp = await fetch(`${URL_API}/medida`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosUnidade)
+            });
             const data = await resp.json();
             if (!data.sucesso) return mostrarAviso(data.mensagem);
             mostrarAviso("Inserido no Banco de Dados com sucesso!");
         } else if (oQueEstaFazendo === 'alterando') {
-            const resp = await fetch(`${URL_API}/medida/${id_medida}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosUnidade) });
+            const resp = await fetch(`${URL_API}/medida/${id_medida}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosUnidade)
+            });
             const data = await resp.json();
             if (!data.sucesso) return mostrarAviso(data.mensagem);
             mostrarAviso("Alterado no Banco de Dados com sucesso!");
         } else if (oQueEstaFazendo === 'excluindo') {
             const resposta = await fetch(`${URL_API}/medida/${id_medida}`, { method: 'DELETE' });
             const data = await resposta.json();
-            if (!data.sucesso) {
-                mostrarAviso(data.mensagem || "Erro ao excluir no servidor.");
-                return;
-            }
+            if (!data.sucesso) return mostrarAviso(data.mensagem || "Erro ao excluir no servidor.");
             mostrarAviso("Excluído do Banco de Dados!");
         }
 
@@ -97,19 +103,21 @@ async function listar() {
     try {
         const resposta = await fetch(`${URL_API}/medida/listar`);
         const data = await resposta.json();
-        
+
         if (data.sucesso) {
             let texto = "";
+
             for (let linha of data.unidades) {
                 texto += `<b>[${linha.id_medida}]</b> - ${linha.nome_medida}<br>`;
             }
+
             document.getElementById("outputSaida").innerHTML = texto || "Nenhuma unidade de medida cadastrada.";
         } else {
             document.getElementById("outputSaida").innerHTML = `Erro no banco: ${data.mensagem}`;
         }
     } catch (erro) {
         console.error("Erro ao listar:", erro);
-        document.getElementById("outputSaida").innerHTML = "Servidor offline ou erro de conexão (CORS).";
+        document.getElementById("outputSaida").innerHTML = "Servidor offline ou erro de conexão.";
     }
 }
 
