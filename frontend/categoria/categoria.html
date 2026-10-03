@@ -16,7 +16,7 @@
 
         <nav>
             <a href="../menu/menu.html">Início</a>
-            <a href="../pratos/pratos.html">Pratos</a>
+            <a href="../prato/prato.html">Pratos</a>
             <a href="../categoria/categoria.html">Categorias</a>
             <a href="../usuario/usuario.html">Usuários</a>
             <a href="../medida/medida.html">Medidas</a>
@@ -31,43 +31,22 @@
             <label for="inputId_categoria">ID da Categoria</label>
 
             <div class="linha-id">
-                <input type="number" id="inputId_categoria" placeholder="Ex: 1">
-
-                <input type="button" value="Procurar"
-                    id="btProcure" onclick="procure()">
-
-                <input type="button" value="Inserir"
-                    id="btInserir" onclick="inserir()" style="display:none;">
-
-                <input type="button" value="Alterar"
-                    id="btAlterar" onclick="alterar()" style="display:none;">
-
-                <input type="button" value="Excluir"
-                    id="btExcluir" onclick="excluir()" style="display:none;">
+                <input type="number" id="inputId_categoria" min="0" placeholder="Ex: 1">
+                <input type="button" value="Procurar"id="btProcure" onclick="procure()">
+                <input type="button" value="Inserir"id="btInserir" onclick="inserir()" style="display:none;">
+                <input type="button" value="Alterar"id="btAlterar" onclick="alterar()" style="display:none;">
+                <input type="button" value="Excluir"id="btExcluir" onclick="excluir()" style="display:none;">
             </div>
 
             <label for="inputNome_categoria">Nome da Categoria</label>
-
-            <input type="text"
-                id="inputNome_categoria"
-                placeholder="Ex: Massas, Sobremesas, Bebidas">
-
-            <div id="divAviso">
+            <input type="text" id="inputNome_categoria" placeholder="Ex: Massas, Sobremesas, Bebidas">
+             <div id="divAviso">
                 Informe o ID da categoria e clique em Procurar.
             </div>
 
             <div class="botoes-acao">
-                <input type="button"
-                    value="Salvar"
-                    id="btSalvar"
-                    onclick="salvar()"
-                    style="display:none;">
-
-                <input type="button"
-                    value="Cancelar"
-                    id="btCancelar"
-                    onclick="cancelarOperacao()"
-                    style="display:none;">
+                <input type="button" value="Salvar" id="btSalvar" onclick="salvar()" style="display:none;">
+                <input type="button" value="Cancelar" id="btCancelar" onclick="cancelarOperacao()" style="display:none;">
             </div>
         </section>
 
@@ -78,15 +57,10 @@
 
         <aside>
             <h3>💡 Dica</h3>
-            <p>
-                Use categorias para facilitar a organização dos pratos.
-            </p>
+            <p>Use categorias para facilitar a organização dos pratos.</p>
         </aside>
-
-    </main>
-
-    
-    <script src="./categoria.js"></script>
+</main>
+<script src="./categoria.js"></script>
 
 </body>
 </html>

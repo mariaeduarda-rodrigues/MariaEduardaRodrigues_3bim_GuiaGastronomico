@@ -64,126 +64,105 @@ exports.obterPrato = async (req, res) => {
 
 // Criar prato
 exports.criarPrato = async (req, res) => {
-  try {
-    const {
-      id_prato,
-      nome_prato,
-      id_medida,
-      quantidade_estoque_prato,
-      preco_unitario_prato
-    } = req.body;
+    try {
+        const {
+            id_prato,
+            nome_prato,
+            id_medida,
+            id_categoria,
+            quantidade_estoque_prato,
+            preco_unitario_prato
+        } = req.body;
 
-    if (!nome_prato) {
-      return res.status(400).json({
-        sucesso: false,
-        mensagem: 'O nome do prato é obrigatório.'
-      });
+        if (!nome_prato) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'O nome do prato é obrigatório.'
+            });
+        }
+
+        const result = await query(`
+            INSERT INTO prato
+            (id_prato, nome_prato, id_medida, id_categoria,
+             quantidade_estoque_prato, preco_unitario_prato)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *
+        `, [
+            id_prato,
+            nome_prato,
+            id_medida || null,
+            id_categoria || null,
+            quantidade_estoque_prato || 0,
+            preco_unitario_prato || 0
+        ]);
+
+        res.status(201).json({
+            sucesso: true,
+            mensagem: 'Prato inserido com sucesso!',
+            prato: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error('Erro ao criar prato:', error);
+
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao inserir prato no banco de dados.'
+        });
     }
-
-    const sql = `
-      INSERT INTO public.prato
-      (
-        id_prato,
-        nome_prato,
-        id_medida,
-        quantidade_estoque_prato,
-        preco_unitario_prato
-      )
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING *
-    `;
-
-    const values = [
-      id_prato,
-      nome_prato,
-      id_medida || null,
-      quantidade_estoque_prato || 0,
-      preco_unitario_prato || 0.0
-    ];
-
-    const result = await query(sql, values);
-
-    res.status(201).json({
-      sucesso: true,
-      mensagem: 'Prato inserido com sucesso!',
-      prato: result.rows[0]
-    });
-  } catch (error) {
-    console.error('Erro ao criar prato:', error);
-
-    if (error.code === '23503') {
-      return res.status(400).json({
-        sucesso: false,
-        mensagem: 'A medida informada não existe no cadastro.'
-      });
-    }
-
-    res.status(500).json({
-      sucesso: false,
-      mensagem: 'Erro ao inserir prato no banco de dados.'
-    });
-  }
 };
-
 // Atualizar prato
 exports.atualizarPrato = async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+    try {
+        const id = parseInt(req.params.id);
 
-    const {
-      nome_prato,
-      id_medida,
-      quantidade_estoque_prato,
-      preco_unitario_prato
-    } = req.body;
+        const {
+            nome_prato,
+            id_medida,
+            id_categoria,
+            quantidade_estoque_prato,
+            preco_unitario_prato
+        } = req.body;
 
-    const sql = `
-      UPDATE public.prato
-      SET nome_prato = $1,
-          id_medida = $2,
-          quantidade_estoque_prato = $3,
-          preco_unitario_prato = $4
-      WHERE id_prato = $5
-      RETURNING *
-    `;
+        const result = await query(`
+            UPDATE prato
+            SET nome_prato = $1,
+                id_medida = $2,
+                id_categoria = $3,
+                quantidade_estoque_prato = $4,
+                preco_unitario_prato = $5
+            WHERE id_prato = $6
+            RETURNING *
+        `, [
+            nome_prato,
+            id_medida || null,
+            id_categoria || null,
+            quantidade_estoque_prato || 0,
+            preco_unitario_prato || 0,
+            id
+        ]);
 
-    const values = [
-      nome_prato,
-      id_medida || null,
-      quantidade_estoque_prato || 0,
-      preco_unitario_prato || 0.0,
-      id
-    ];
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: 'Prato não encontrado.'
+            });
+        }
 
-    const result = await query(sql, values);
+        res.json({
+            sucesso: true,
+            mensagem: 'Prato alterado com sucesso!',
+            prato: result.rows[0]
+        });
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        sucesso: false,
-        mensagem: 'Prato não encontrado.'
-      });
+    } catch (error) {
+        console.error('Erro ao atualizar prato:', error);
+
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao atualizar prato.'
+        });
     }
-
-    res.json({
-      sucesso: true,
-      mensagem: 'Prato alterado com sucesso!',
-      prato: result.rows[0]
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar prato:', error);
-
-    if (error.code === '23503') {
-      return res.status(400).json({
-        sucesso: false,
-        mensagem: 'A medida informada não existe no cadastro.'
-      });
-    }
-
-    res.status(500).json({
-      sucesso: false,
-      mensagem: 'Erro ao atualizar prato.'
-    });
-  }
 };
 
 // Upload e salvamento de imagem

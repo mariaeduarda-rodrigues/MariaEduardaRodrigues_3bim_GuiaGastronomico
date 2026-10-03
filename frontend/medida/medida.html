@@ -26,83 +26,35 @@
     <main class="container-master">
 
         <section class="form-esquerda">
-
             <h2>Dados da Medida</h2>
 
-            <label for="inputId_medida">
-                Sigla da Medida
-            </label>
+            <label for="inputId_medida">Sigla da Medida</label>
 
             <div class="linha-id">
+                <input type="text" id="inputId_medida" maxlength="2" placeholder="Ex: KG">
 
-                <input type="text"
-                    id="inputId_medida"
-                    maxlength="2"
-                    placeholder="Ex: KG">
-
-                <input type="button"
-                    value="Procurar"
-                    id="btProcure"
-                    onclick="procure()">
-
-                <input type="button"
-                    value="Inserir"
-                    id="btInserir"
-                    onclick="inserir()"
-                    style="display:none;">
-
-                <input type="button"
-                    value="Alterar"
-                    id="btAlterar"
-                    onclick="alterar()"
-                    style="display:none;">
-
-                <input type="button"
-                    value="Excluir"
-                    id="btExcluir"
-                    onclick="excluir()"
-                    style="display:none;">
-
+                <input type="button" value="Procurar" id="btProcure" onclick="procure()">
+                <input type="button" value="Inserir" id="btInserir" onclick="inserir()" style="display:none;">
+                <input type="button" value="Alterar" id="btAlterar" onclick="alterar()" style="display:none;">
+                <input type="button" value="Excluir" id="btExcluir" onclick="excluir()" style="display:none;">
             </div>
 
-            <label for="inputNome_medida">
-                Nome da Medida
-            </label>
-
-            <input type="text"
-                id="inputNome_medida"
-                placeholder="Ex: Quilograma">
+            <label for="inputNome_medida">Nome da Medida</label>
+            <input type="text" id="inputNome_medida" placeholder="Ex: Quilograma">
 
             <div id="divAviso">
                 Informe a sigla e clique em Procurar.
             </div>
 
             <div class="botoes-acao">
-
-                <input type="button"
-                    value="Salvar"
-                    id="btSalvar"
-                    onclick="salvar()"
-                    style="display:none;">
-
-                <input type="button"
-                    value="Cancelar"
-                    id="btCancelar"
-                    onclick="cancelarOperacao()"
-                    style="display:none;">
-
+                <input type="button" value="Salvar" id="btSalvar" onclick="salvar()" style="display:none;">
+                <input type="button" value="Cancelar" id="btCancelar" onclick="cancelarOperacao()" style="display:none;">
             </div>
-
         </section>
 
         <section class="lista-unidades">
-
             <h2>Medidas cadastradas</h2>
-
-            <div id="outputSaida">
-                Carregando...
-            </div>
-
+            <div id="outputSaida">Carregando...</div>
         </section>
 
         <aside>
@@ -112,8 +64,7 @@
 
     </main>
 
-   
     <script src="./medida.js"></script>
-
 </body>
+
 </html>

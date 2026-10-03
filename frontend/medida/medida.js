@@ -107,7 +107,7 @@ async function listar() {
         if (data.sucesso) {
             let texto = "";
 
-            for (let linha of data.unidades) {
+            for (let linha of data.medidas) {
                 texto += `<b>[${linha.id_medida}]</b> - ${linha.nome_medida}<br>`;
             }
 

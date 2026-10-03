@@ -7,6 +7,7 @@ async function inicializar() {
     bloquearAtributos(true);
     visibilidadeDosBotoes('inline', 'none', 'none', 'none', 'none');
     await carregarUnidadesMedida();
+    await carregarCategorias();
     await listar();
 }
 
@@ -32,6 +33,28 @@ async function carregarUnidadesMedida() {
     }
 }
 
+async function carregarCategorias() {
+    const select = document.getElementById('selectId_categoria');
+
+    try {
+        const resposta = await fetch(`${URL_API}/categoria/listar`);
+        const data = await resposta.json();
+
+        if (data.sucesso) {
+            select.innerHTML = '<option value="">-- Selecione uma Categoria --</option>';
+
+            data.categorias.forEach(categoria => {
+                select.innerHTML += `<option value="${categoria.id_categoria}">${categoria.id_categoria} - ${categoria.nome_categoria}</option>`;
+            });
+        } else {
+            select.innerHTML = '<option value="">Erro ao carregar categorias</option>';
+        }
+    } catch (erro) {
+        console.error('Erro ao carregar categorias:', erro);
+        select.innerHTML = '<option value="">Erro ao carregar categorias</option>';
+    }
+}
+
 function carregarImagem(id) {
     const img = document.getElementById('imgPrato');
     if (!id) {
@@ -53,7 +76,14 @@ function acionarUpload() {
 }
 
 function previewImagem() {
-    const inputFiles = document.getElementById('inputImagem').files;
+    const inputImagem = document.getElementById('inputImagem');
+
+    if (!inputImagem) {
+        return;
+    }
+
+    const inputFiles = inputImagem.files;
+
     if (inputFiles.length > 0) {
         const url = URL.createObjectURL(inputFiles[0]);
         document.getElementById('imgPrato').src = url;
@@ -62,8 +92,17 @@ function previewImagem() {
 }
 
 async function uploadImagemParaServidor(id) {
-    const inputFiles = document.getElementById('inputImagem').files;
-    if (inputFiles.length === 0) return;
+    const inputImagem = document.getElementById('inputImagem');
+
+    if (!inputImagem) {
+        return;
+    }
+
+    const inputFiles = inputImagem.files;
+
+    if (inputFiles.length === 0) {
+        return;
+    }
 
     const formData = new FormData();
     formData.append('imagem', inputFiles[0]);
@@ -73,12 +112,14 @@ async function uploadImagemParaServidor(id) {
             method: 'POST',
             body: formData
         });
-        if (!resposta.ok) console.error('Erro no upload da imagem:', resposta.status);
+
+        if (!resposta.ok) {
+            console.error('Erro no upload da imagem:', resposta.status);
+        }
     } catch (erro) {
         console.error('Erro ao enviar imagem:', erro);
     }
 }
-
 async function procurePorChavePrimaria(chave) {
     try {
         const resposta = await fetch(`${URL_API}/prato/${chave}`);
@@ -140,16 +181,18 @@ async function salvar() {
     const id_prato = document.getElementById('inputId_prato').value;
     const nome_prato = document.getElementById('inputNome_prato').value;
     const id_medida = document.getElementById('selectId_medida').value || null;
+    const id_categoria = document.getElementById('selectId_categoria').value || null;
     const quantidade_estoque_prato = parseInt(document.getElementById('inputQuantidade_estoque_prato').value) || 0;
     const preco_unitario_prato = parseFloat(document.getElementById('inputPreco_unitario_prato').value) || 0;
 
-    const dadosPrato = {
-        id_prato: id_prato || null,
-        nome_prato,
-        id_medida,
-        quantidade_estoque_prato,
-        preco_unitario_prato
-    };
+   const dadosPrato = {
+    id_prato: id_prato || null,
+    nome_prato,
+    id_medida,
+    id_categoria,
+    quantidade_estoque_prato,
+    preco_unitario_prato
+};
 if (Number(id_prato) < 0) {
     mostrarAviso('O ID não pode ser negativo.');
     return;
@@ -172,7 +215,11 @@ if (preco_unitario_prato < 0) {
                 body: JSON.stringify(dadosPrato)
             });
 
-            if (!resposta.ok) throw new Error('Erro ao inserir prato');
+            if (!resposta.ok) {
+    const erro = await resposta.json();
+    mostrarAviso(erro.mensagem || 'Erro ao inserir prato.');
+    return;
+}
             await uploadImagemParaServidor(id_prato);
             mostrarAviso('Inserido no Banco de Dados com sucesso!');
         } else if (oQueEstaFazendo === 'alterando') {
@@ -182,7 +229,11 @@ if (preco_unitario_prato < 0) {
                 body: JSON.stringify(dadosPrato)
             });
 
-            if (!resposta.ok) throw new Error('Erro ao alterar prato');
+            if (!resposta.ok) {
+    const erro = await resposta.json();
+    mostrarAviso(erro.mensagem || 'Erro ao alterar prato.');
+    return;
+}
             await uploadImagemParaServidor(id_prato);
             mostrarAviso('Alterado no Banco de Dados com sucesso!');
         } else if (oQueEstaFazendo === 'excluindo') {
@@ -200,9 +251,9 @@ if (preco_unitario_prato < 0) {
         document.getElementById('inputId_prato').value = '';
         await listar();
     } catch (erro) {
-        console.error('Erro ao efetuar operação:', erro);
-        mostrarAviso('Erro ao efetuar operação no servidor.');
-    }
+    console.error('ERRO COMPLETO:', erro);
+    mostrarAviso('ERRO: ' + erro.message);
+}
 }
 
 async function listar() {
@@ -247,6 +298,7 @@ function mostrarDadosPrato(p) {
     document.getElementById('inputId_prato').value = p.id_prato;
     document.getElementById('inputNome_prato').value = p.nome_prato;
     document.getElementById('selectId_medida').value = p.id_medida || '';
+    document.getElementById('selectId_categoria').value = p.id_categoria || '';
     document.getElementById('inputQuantidade_estoque_prato').value = p.quantidade_estoque_prato;
     document.getElementById('inputPreco_unitario_prato').value = p.preco_unitario_prato;
     bloquearAtributos(true);
@@ -255,11 +307,18 @@ function mostrarDadosPrato(p) {
 function limparAtributos() {
     prato = null;
     oQueEstaFazendo = '';
+
     document.getElementById('inputNome_prato').value = '';
     document.getElementById('selectId_medida').value = '';
+    document.getElementById('selectId_categoria').value = '';
     document.getElementById('inputQuantidade_estoque_prato').value = '';
     document.getElementById('inputPreco_unitario_prato').value = '';
-    document.getElementById('inputImagem').value = '';
+
+    const inputImagem = document.getElementById('inputImagem');
+    if (inputImagem) {
+        inputImagem.value = '';
+    }
+
     bloquearAtributos(true);
 }
 
@@ -267,6 +326,7 @@ function bloquearAtributos(soLeitura) {
     document.getElementById('inputId_prato').readOnly = !soLeitura;
     document.getElementById('inputNome_prato').readOnly = soLeitura;
     document.getElementById('selectId_medida').disabled = soLeitura;
+    document.getElementById('selectId_categoria').disabled = soLeitura;
     document.getElementById('inputQuantidade_estoque_prato').readOnly = soLeitura;
     document.getElementById('inputPreco_unitario_prato').readOnly = soLeitura;
 }

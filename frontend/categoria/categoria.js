@@ -1,5 +1,4 @@
 const URL_API = 'http://localhost:3000';
-
 let oQueEstaFazendo = '';
 let categoria = null;
 bloquearAtributos(true);
@@ -16,10 +15,10 @@ async function procurePorChavePrimaria(chave) {
 
 async function procure() {
     const id_categoria = parseInt(document.getElementById("inputId_categoria").value, 10);
-    if (isNaN(id_categoria)) {
-        mostrarAviso("O ID do Categoria não pode ser vazio e deve ser um número.");
-        return;
-    }
+    if (isNaN(id_categoria) || id_categoria < 0) {
+    mostrarAviso("O ID da Categoria deve ser um número maior ou igual a 0.");
+    return;
+}
 
     categoria = await procurePorChavePrimaria(id_categoria);
     oQueEstaFazendo = '';
@@ -39,7 +38,7 @@ function inserir() {
     bloquearAtributos(false);
     visibilidadeDosBotoes('none', 'none', 'none', 'none', 'inline');
     oQueEstaFazendo = 'inserindo';
-    mostrarAviso("INSERINDO - Digite o nome do categoria e clique em salvar");
+    mostrarAviso("INSERINDO - Digite o nome da categoria e clique em salvar");
 }
 
 function alterar() {
@@ -60,10 +59,10 @@ async function salvar() {
     const id_categoria = parseInt(document.getElementById("inputId_categoria").value, 10);
     const nome_categoria = document.getElementById("inputNome_categoria").value.trim();
 
-    if (isNaN(id_categoria)) {
-        mostrarAviso("O ID do categoria deve ser um número válido.");
-        return;
-    }
+    if (isNaN(id_categoria) || id_categoria < 0) {
+    mostrarAviso("O ID da categoria deve ser um número maior ou igual a 0.");
+    return;
+}
 
     const dadosCategoria = { id_categoria, nome_categoria };
 
