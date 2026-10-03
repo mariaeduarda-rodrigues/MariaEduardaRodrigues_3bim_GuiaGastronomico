@@ -1,4 +1,13 @@
+SIIIM 😭❤️ Vou deixar com cara de projeto de verdade, bonitinho e sem ficar exageradamente formal. É só **copiar tudo e colar no `README.md`**.
+
+````markdown
 # 🍽️ DEVORA — Guia Gastronômico
+
+<p align="center">
+  <strong>Um guia gastronômico simples e funcional para explorar pratos e categorias.</strong>
+</p>
+
+---
 
 ## 📖 Sobre o projeto
 
@@ -142,5 +151,148 @@ guia_gastronomico/
 ├── package-lock.json
 ├── README.md
 └── .gitignore
+````
 
-Maria Eduarda Rodrigues Ferreira - M32
+---
+
+## 🗄️ Banco de dados
+
+O projeto utiliza o **PostgreSQL** com o banco:
+
+```text
+guia_gastronomico
+```
+
+O banco possui tabelas utilizadas para armazenar e relacionar os dados da aplicação, como:
+
+* `usuario`
+* `categoria`
+* `medida`
+* `prato`
+* `cliente`
+* `funcionario`
+* `pedido`
+* `pagamento`
+* `forma_pagamento`
+
+As tabelas possuem **chaves primárias e estrangeiras**, permitindo o relacionamento entre diferentes informações do sistema.
+
+---
+
+## 🔄 CRUD
+
+O projeto utiliza operações **CRUD** para o gerenciamento dos dados.
+
+| Operação | Significado     |
+| -------- | --------------- |
+| CREATE   | Cadastrar dados |
+| READ     | Consultar dados |
+| UPDATE   | Alterar dados   |
+| DELETE   | Excluir dados   |
+
+Essas operações são realizadas através das rotas do backend e conectadas ao banco de dados PostgreSQL.
+
+---
+
+## 🖼️ Imagens
+
+O projeto possui uma pasta específica para armazenar as imagens utilizadas na aplicação:
+
+```text
+imagens/
+```
+
+As imagens podem ser associadas aos pratos cadastrados no guia gastronômico.
+
+---
+
+## 🚀 Como executar o projeto
+
+### 1. Instalar as dependências
+
+Abra o terminal na pasta do projeto e execute:
+
+```bash
+npm install
+```
+
+### 2. Configurar o PostgreSQL
+
+Crie um banco de dados chamado:
+
+```text
+guia_gastronomico
+```
+
+Depois, execute o arquivo:
+
+```text
+guia_gastronomico.sql
+```
+
+para criar as tabelas e inserir os dados iniciais.
+
+### 3. Configurar o `.env`
+
+Na pasta `backend`, crie um arquivo `.env` com suas configurações do PostgreSQL:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=SUA_SENHA
+DB_NAME=guia_gastronomico
+PORT=3000
+```
+
+> ⚠️ O arquivo `.env` não deve ser enviado para o GitHub.
+
+### 4. Iniciar o servidor
+
+Execute:
+
+```bash
+node backend/server.js
+```
+
+O sistema estará disponível em:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## 🔐 Segurança
+
+Para evitar o envio de informações sensíveis ao GitHub, o projeto utiliza um arquivo `.gitignore`.
+
+Entre os arquivos ignorados estão:
+
+```text
+node_modules/
+.env
+```
+
+Dessa forma, informações como a senha utilizada para conexão com o banco de dados não ficam disponíveis no repositório.
+
+---
+
+## 👩‍💻 Desenvolvimento
+
+Este projeto foi **desenvolvido por Maria Eduarda Rodrigues Ferreira**, como atividade acadêmica da disciplina de **Desenvolvimento Web 1 (DW1)**.
+
+Durante o desenvolvimento foram aplicados conhecimentos de desenvolvimento frontend, backend, banco de dados, arquitetura Cliente/Servidor, padrão MVC e versionamento com Git e GitHub.
+
+---
+
+## 📚 Projeto acadêmico
+
+**Projeto:** DEVORA — Guia Gastronômico
+**Disciplina:** Desenvolvimento Web 1 — DW1
+**Ano:** 2026
+**Desenvolvido por:** **Maria Eduarda Rodrigues Ferreira**
+
+---
+
+DEVORA — Explore, escolha e devore!
