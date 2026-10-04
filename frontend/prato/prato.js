@@ -134,6 +134,12 @@ async function procurePorChavePrimaria(chave) {
 async function procure() {
     const id_prato = document.getElementById('inputId_prato').value;
 
+    // Verifica se o ID é negativo
+    if (id_prato !== '' && Number(id_prato) < 0) {
+        mostrarAviso('Digite um número válido.');
+        return;
+    }
+
     if (id_prato === '' || isNaN(id_prato) || !Number.isInteger(Number(id_prato))) {
         mostrarAviso('Precisa ser um número inteiro');
         return;
@@ -157,17 +163,19 @@ async function procure() {
 }
 
 function inserir() {
+    const id_prato = document.getElementById('inputId_prato').value;
     bloquearAtributos(false);
     visibilidadeDosBotoes('none', 'none', 'none', 'none', 'inline');
     oQueEstaFazendo = 'inserindo';
-    mostrarAviso('INSERINDO - Digite os atributos, escolha a imagem e clique em salvar');
+
+    mostrarAviso('INSERINDO - Digite os atributos e clique em salvar');
 }
 
 function alterar() {
     bloquearAtributos(false);
     visibilidadeDosBotoes('none', 'none', 'none', 'none', 'inline');
     oQueEstaFazendo = 'alterando';
-    mostrarAviso('ALTERANDO - Digite os atributos, mude a imagem (opcional) e clique em salvar');
+    mostrarAviso('ALTERANDO - Digite os atributos e clique em salvar');
 }
 
 function excluir() {
@@ -178,37 +186,112 @@ function excluir() {
 }
 
 async function salvar() {
-    const id_prato = document.getElementById('inputId_prato').value;
-    const nome_prato = document.getElementById('inputNome_prato').value;
-    const id_medida = document.getElementById('selectId_medida').value || null;
-    const id_categoria = document.getElementById('selectId_categoria').value || null;
-    const quantidade_estoque_prato = parseInt(document.getElementById('inputQuantidade_estoque_prato').value) || 0;
-    const preco_unitario_prato = parseFloat(document.getElementById('inputPreco_unitario_prato').value) || 0;
+    const id_prato = document.getElementById('inputId_prato').value.trim();
 
-   const dadosPrato = {
-    id_prato: id_prato || null,
-    nome_prato,
-    id_medida,
-    id_categoria,
-    quantidade_estoque_prato,
-    preco_unitario_prato
-};
-if (Number(id_prato) < 0) {
-    mostrarAviso('O ID não pode ser negativo.');
-    return;
-}
+    // Se estiver excluindo, não precisa validar os campos
+    if (oQueEstaFazendo === 'excluindo') {
+        try {
+            const resposta = await fetch(`${URL_API}/prato/${id_prato}`, {
+                method: 'DELETE'
+            });
 
-if (quantidade_estoque_prato < 0) {
-    mostrarAviso('A quantidade em estoque não pode ser negativa.');
-    return;
-}
+            if (!resposta.ok) {
+                const erro = await resposta.json();
+                mostrarAviso(erro.mensagem || 'Erro ao excluir prato.');
+                return;
+            }
 
-if (preco_unitario_prato < 0) {
-    mostrarAviso('O preço não pode ser negativo.');
-    return;
-}
+            carregarImagem(null);
+            mostrarAviso('Excluído do Banco de Dados!');
+
+            visibilidadeDosBotoes('inline', 'none', 'none', 'none', 'none');
+            limparAtributos();
+            document.getElementById('inputId_prato').value = '';
+
+            await listar();
+
+        } catch (erro) {
+            console.error('ERRO COMPLETO:', erro);
+            mostrarAviso('ERRO: ' + erro.message);
+        }
+
+        return;
+    }
+    const nome_prato = document.getElementById('inputNome_prato').value.trim();
+    const id_medida = document.getElementById('selectId_medida').value;
+    const id_categoria = document.getElementById('selectId_categoria').value;
+    const estoqueValor = document.getElementById('inputQuantidade_estoque_prato').value;
+    const precoValor = document.getElementById('inputPreco_unitario_prato').value;
+
+    // Verifica campos obrigatórios
+    if (!id_prato) {
+        mostrarAviso('Preencha o ID do prato.');
+        document.getElementById('inputId_prato').focus();
+        return;
+    }
+
+    if (!nome_prato) {
+        mostrarAviso('Preencha o nome do prato.');
+        document.getElementById('inputNome_prato').focus();
+        return;
+    }
+
+    if (!id_categoria) {
+        mostrarAviso('Selecione uma categoria.');
+        document.getElementById('selectId_categoria').focus();
+        return;
+    }
+
+    if (!id_medida) {
+        mostrarAviso('Selecione uma unidade de medida.');
+        document.getElementById('selectId_medida').focus();
+        return;
+    }
+
+    if (estoqueValor === '') {
+        mostrarAviso('Preencha a quantidade em estoque.');
+        document.getElementById('inputQuantidade_estoque_prato').focus();
+        return;
+    }
+
+    if (precoValor === '') {
+        mostrarAviso('Preencha o preço do prato.');
+        document.getElementById('inputPreco_unitario_prato').focus();
+        return;
+    }
+
+    const quantidade_estoque_prato = Number(estoqueValor);
+    const preco_unitario_prato = Number(precoValor);
+
+    if (Number(id_prato) < 0) {
+        mostrarAviso('O ID não pode ser negativo.');
+        return;
+    }
+
+    if (quantidade_estoque_prato < 0) {
+        mostrarAviso('A quantidade em estoque não pode ser negativa.');
+        document.getElementById('inputQuantidade_estoque_prato').focus();
+        return;
+    }
+
+    if (preco_unitario_prato < 0) {
+        mostrarAviso('O preço não pode ser negativo.');
+        document.getElementById('inputPreco_unitario_prato').focus();
+        return;
+    }
+
+    const dadosPrato = {
+        id_prato,
+        nome_prato,
+        id_medida,
+        id_categoria,
+        quantidade_estoque_prato,
+        preco_unitario_prato
+    };
+
     try {
         if (oQueEstaFazendo === 'inserindo') {
+
             const resposta = await fetch(`${URL_API}/prato`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -216,13 +299,16 @@ if (preco_unitario_prato < 0) {
             });
 
             if (!resposta.ok) {
-    const erro = await resposta.json();
-    mostrarAviso(erro.mensagem || 'Erro ao inserir prato.');
-    return;
-}
+                const erro = await resposta.json();
+                mostrarAviso(erro.mensagem || 'Erro ao inserir prato.');
+                return;
+            }
+
             await uploadImagemParaServidor(id_prato);
             mostrarAviso('Inserido no Banco de Dados com sucesso!');
+
         } else if (oQueEstaFazendo === 'alterando') {
+
             const resposta = await fetch(`${URL_API}/prato/${id_prato}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -230,18 +316,24 @@ if (preco_unitario_prato < 0) {
             });
 
             if (!resposta.ok) {
-    const erro = await resposta.json();
-    mostrarAviso(erro.mensagem || 'Erro ao alterar prato.');
-    return;
-}
+                const erro = await resposta.json();
+                mostrarAviso(erro.mensagem || 'Erro ao alterar prato.');
+                return;
+            }
+
             await uploadImagemParaServidor(id_prato);
             mostrarAviso('Alterado no Banco de Dados com sucesso!');
+
         } else if (oQueEstaFazendo === 'excluindo') {
+
             const resposta = await fetch(`${URL_API}/prato/${id_prato}`, {
                 method: 'DELETE'
             });
 
-            if (!resposta.ok) throw new Error('Erro ao excluir prato');
+            if (!resposta.ok) {
+                throw new Error('Erro ao excluir prato');
+            }
+
             carregarImagem(null);
             mostrarAviso('Excluído do Banco de Dados!');
         }
@@ -250,10 +342,11 @@ if (preco_unitario_prato < 0) {
         limparAtributos();
         document.getElementById('inputId_prato').value = '';
         await listar();
+
     } catch (erro) {
-    console.error('ERRO COMPLETO:', erro);
-    mostrarAviso('ERRO: ' + erro.message);
-}
+        console.error('ERRO COMPLETO:', erro);
+        mostrarAviso('ERRO: ' + erro.message);
+    }
 }
 
 async function listar() {
@@ -270,11 +363,15 @@ async function listar() {
 
         let texto = '';
 
-        for (const linha of data.pratos) {
-            const medida = linha.id_medida ? ` [${linha.id_medida}]` : '';
-            texto += `${linha.id_prato} - ${linha.nome_prato}${medida} - Estoque: ${linha.quantidade_estoque_prato} - Preço: R$ ${Number(linha.preco_unitario_prato).toFixed(2)}<br>`;
-        }
+for (const linha of data.pratos) {
 
+    const medida = linha.id_medida ? ` [${linha.id_medida}]` : '';
+    const categoria = linha.nome_categoria
+    ? ` - Categoria: ${linha.nome_categoria}`
+    : '';
+
+texto += `${linha.id_prato} - ${linha.nome_prato}${medida}${categoria} - Estoque: ${linha.quantidade_estoque_prato} - Preço: R$ ${Number(linha.preco_unitario_prato).toFixed(2)}<br>`;
+    }
         document.getElementById('outputSaida').innerHTML = texto || 'Nenhum prato cadastrado.';
     } catch (erro) {
         console.error('Erro ao listar pratos:', erro);

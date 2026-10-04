@@ -5,25 +5,30 @@ const sharp = require('sharp');
 
 // Listar todos os pratos
 exports.listarPratos = async (req, res) => {
-  try {
-    const result = await query(
-      'SELECT * FROM public.prato ORDER BY id_prato'
-    );
+    try {
+        const result = await query(`
+            SELECT 
+                prato.*,
+                categoria.nome_categoria
+            FROM public.prato
+            LEFT JOIN public.categoria
+                ON prato.id_categoria = categoria.id_categoria
+            ORDER BY prato.id_prato
+        `);
 
-    res.json({
-      sucesso: true,
-      pratos: result.rows
-    });
-  } catch (error) {
-    console.error('Erro ao listar pratos:', error);
+        res.json({
+            sucesso: true,
+            pratos: result.rows
+        });
 
-    res.status(500).json({
-      sucesso: false,
-      mensagem: 'Erro ao listar pratos.'
-    });
-  }
+    } catch (error) {
+        console.error('Erro ao listar pratos:', error);
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao listar pratos.'
+        });
+    }
 };
-
 // Obter prato por ID
 exports.obterPrato = async (req, res) => {
   try {

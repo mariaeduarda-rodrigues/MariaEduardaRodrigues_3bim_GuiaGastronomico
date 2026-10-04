@@ -17,7 +17,6 @@ const messageContainer = document.getElementById('messageContainer');
 // Carregar lista de usuarios e popular menu de categoria ao inicializar
 document.addEventListener('DOMContentLoaded', () => {
     carregarUsuarios();
-    popularCategoriasSelect();
 });
 
 // Event Listeners
@@ -51,9 +50,9 @@ function bloquearCampos(bloquearPrimeiro) {
 
 function limparFormulario() {
     form.reset();
+
     document.getElementById('checkboxFuncionario').checked = false;
     document.getElementById('salario_funcionario').value = '';
-    document.getElementById('categoria_id_categoria').value = '';
     document.getElementById('porcentagem_comissao_funcionario').value = '';
 
     document.getElementById('checkboxCliente').checked = false;
@@ -131,12 +130,19 @@ async function funcaoEhCliente(usuarioId) {
 
 async function buscarUsuario() {
     const id = searchId.value.trim();
+
     if (!id) {
         mostrarMensagem('Digite um CPF para buscar', 'warning');
         return;
     }
 
+    if (id.startsWith('-')) {
+        mostrarMensagem('O CPF não pode ser negativo!', 'warning');
+        return;
+    }
+
     bloquearCampos(false);
+
     searchId.focus();
     try {
         const response = await fetch(`${API_BASE_URL}/usuario/${id}`);
@@ -150,7 +156,7 @@ async function buscarUsuario() {
             limparFormulario();
             searchId.value = id;
             mostrarBotoes(true, true, false, false, false, false);
-            mostrarMensagem('Usuario não encontrada. Você pode incluir uma nova usuario.', 'info');
+            mostrarMensagem('Usuario não encontrado. Você pode incluir um novo usuario.', 'info');
             bloquearCampos(false);
         }
     } catch (error) {
@@ -179,12 +185,10 @@ async function preencherFormulario(usuario) {
     const ehFunc = await funcaoEhFuncionario(currentPersonId);
     if (ehFunc.ehFuncionario) {
         document.getElementById('checkboxFuncionario').checked = true;
-        document.getElementById('categoria_id_categoria').value = ehFunc.categoria_id_categoria;
         document.getElementById('salario_funcionario').value = ehFunc.salario_funcionario;
         document.getElementById('porcentagem_comissao_funcionario').value = ehFunc.porcentagem_comissao_funcionario;
     } else {
         document.getElementById('checkboxFuncionario').checked = false;
-        document.getElementById('categoria_id_categoria').value = '';
         document.getElementById('salario_funcionario').value = '';
         document.getElementById('porcentagem_comissao_funcionario').value = '';
     }
@@ -231,6 +235,89 @@ async function excluirUsuario() {
 }
 
 async function salvarOperacao() {
+
+    // 1. CAMPOS PRINCIPAIS
+    const camposObrigatorios = [
+        { id: 'searchId', nome: 'CPF' },
+        { id: 'nome_usuario', nome: 'Nome' },
+        { id: 'data_nascimento', nome: 'Data de Nascimento' },
+        { id: 'endereco_usuario', nome: 'Endereço' },
+        { id: 'senha_usuario', nome: 'Senha' },
+        { id: 'email_usuario', nome: 'Email' }
+    ];
+
+    for (const campo of camposObrigatorios) {
+        const elemento = document.getElementById(campo.id);
+
+        if (!elemento.value.trim()) {
+            mostrarMensagem(`Preencha o campo ${campo.nome}!`, 'warning');
+            elemento.focus();
+            return;
+        }
+    }
+
+    // 2. VERIFICA OS CHECKBOXES
+    const funcionarioMarcado = document.getElementById('checkboxFuncionario').checked;
+    const clienteMarcado = document.getElementById('checkboxCliente').checked;
+
+    if (!funcionarioMarcado && !clienteMarcado) {
+        mostrarMensagem('Marque Funcionário ou Cliente!', 'warning');
+        return;
+    }
+
+    // 3. FUNCIONÁRIO
+    if (funcionarioMarcado) {
+        const salario = Number(document.getElementById('salario_funcionario').value);
+        const comissao = Number(document.getElementById('porcentagem_comissao_funcionario').value);
+
+        if (!document.getElementById('salario_funcionario').value.trim()) {
+            mostrarMensagem('Preencha o salário do funcionário!', 'warning');
+            document.getElementById('salario_funcionario').focus();
+            return;
+        }
+
+        if (salario < 0) {
+            mostrarMensagem('O salário não pode ser negativo!', 'warning');
+            document.getElementById('salario_funcionario').focus();
+            return;
+        }
+
+        if (!document.getElementById('porcentagem_comissao_funcionario').value.trim()) {
+            mostrarMensagem('Preencha a comissão do funcionário!', 'warning');
+            document.getElementById('porcentagem_comissao_funcionario').focus();
+            return;
+        }
+
+        if (comissao < 0) {
+            mostrarMensagem('A comissão não pode ser negativa!', 'warning');
+            document.getElementById('porcentagem_comissao_funcionario').focus();
+            return;
+        }
+    }
+
+    // 4. CLIENTE
+    if (clienteMarcado) {
+        const renda = Number(document.getElementById('renda_cliente').value);
+
+        if (!document.getElementById('renda_cliente').value.trim()) {
+            mostrarMensagem('Preencha a renda mensal do cliente!', 'warning');
+            document.getElementById('renda_cliente').focus();
+            return;
+        }
+
+        if (renda < 0) {
+            mostrarMensagem('A renda mensal não pode ser negativa!', 'warning');
+            document.getElementById('renda_cliente').focus();
+            return;
+        }
+
+        if (!document.getElementById('data_cadastro_cliente').value) {
+            mostrarMensagem('Preencha a data de cadastro do cliente!', 'warning');
+            document.getElementById('data_cadastro_cliente').focus();
+            return;
+        }
+    }
+
     const formData = new FormData(form);
     const usuario = {
         cpf_usuario: searchId.value.trim(),
@@ -246,7 +333,6 @@ async function salvarOperacao() {
         funcionario = {
             usuario_cpf_usuario: usuario.cpf_usuario,
             salario_funcionario: document.getElementById('salario_funcionario').value,
-            categoria_id_categoria: parseInt(document.getElementById('categoria_id_categoria').value, 10),
             porcentagem_comissao_funcionario: document.getElementById('porcentagem_comissao_funcionario').value
         };
     }
@@ -293,7 +379,7 @@ async function salvarOperacao() {
                     });
                 }
 
-                mostrarMensagem('Usuario incluída com sucesso!', 'success');
+                mostrarMensagem('Usuario incluído com sucesso!', 'success');
                 limparFormulario();
                 carregarUsuarios();
                 break;
@@ -451,32 +537,4 @@ function renderizarTabelaUsuarios(usuarios) {
 async function selecionarUsuario(id) {
     searchId.value = id;
     await buscarUsuario();
-}
-
-// Busca os categoria no backend e preenche o select
-async function popularCategoriasSelect() {
-    const selectCategoria = document.getElementById('categoria_id_categoria');
-    selectCategoria.innerHTML = '<option value="">Categoria</option>';
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/categoria/listar`);
-        const data = await response.json();
-
-        if (data.sucesso && Array.isArray(data.categoria)) {
-            data.categoria.forEach(categoria => {
-                const option = document.createElement('option');
-                option.value = categoria.id_categoria;
-                option.textContent = categoria.nome_categoria;
-                selectCategoria.appendChild(option);
-            });
-        } else {
-            console.error('Erro ao listar categoria:', data.mensagem);
-        }
-    } catch (error) {
-        console.error('Falha ao popular o menu de categoria:', error);
-        const optionErro = document.createElement('option');
-        optionErro.textContent = 'Erro ao carregar categoria';
-        optionErro.disabled = true;
-        selectCategoria.appendChild(optionErro);
-    }
 }
