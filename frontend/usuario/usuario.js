@@ -260,6 +260,15 @@ async function salvarOperacao() {
     const funcionarioMarcado = document.getElementById('checkboxFuncionario').checked;
     const clienteMarcado = document.getElementById('checkboxCliente').checked;
 
+    const hoje = new Date().toISOString().split('T')[0];
+
+const dataNascimento = document.getElementById('data_nascimento').value;
+
+if (dataNascimento > hoje) {
+    mostrarMensagem('A data de nascimento não pode ser futura!', 'warning');
+    return;
+}
+
     if (!funcionarioMarcado && !clienteMarcado) {
         mostrarMensagem('Marque Funcionário ou Cliente!', 'warning');
         return;
@@ -296,27 +305,37 @@ async function salvarOperacao() {
     }
 
     // 4. CLIENTE
-    if (clienteMarcado) {
-        const renda = Number(document.getElementById('renda_cliente').value);
+   if (clienteMarcado) {
 
-        if (!document.getElementById('renda_cliente').value.trim()) {
-            mostrarMensagem('Preencha a renda mensal do cliente!', 'warning');
-            document.getElementById('renda_cliente').focus();
-            return;
-        }
+    const renda = Number(document.getElementById('renda_cliente').value);
 
-        if (renda < 0) {
-            mostrarMensagem('A renda mensal não pode ser negativa!', 'warning');
-            document.getElementById('renda_cliente').focus();
-            return;
-        }
-
-        if (!document.getElementById('data_cadastro_cliente').value) {
-            mostrarMensagem('Preencha a data de cadastro do cliente!', 'warning');
-            document.getElementById('data_cadastro_cliente').focus();
-            return;
-        }
+    if (!document.getElementById('renda_cliente').value.trim()) {
+        mostrarMensagem('Preencha a renda mensal do cliente!', 'warning');
+        document.getElementById('renda_cliente').focus();
+        return;
     }
+
+    if (renda < 0) {
+        mostrarMensagem('A renda mensal não pode ser negativa!', 'warning');
+        document.getElementById('renda_cliente').focus();
+        return;
+    }
+
+    const dataCadastro = document.getElementById('data_cadastro_cliente').value;
+
+    if (!dataCadastro) {
+        mostrarMensagem('Preencha a data de cadastro do cliente!', 'warning');
+        document.getElementById('data_cadastro_cliente').focus();
+        return;
+    }
+
+
+    if (dataCadastro > hoje) {
+        mostrarMensagem('A data de cadastro não pode ser futura!', 'warning');
+        document.getElementById('data_cadastro_cliente').focus();
+        return;
+    }
+}
 
     const formData = new FormData(form);
     const usuario = {
@@ -450,7 +469,7 @@ async function salvarOperacao() {
                     }
                 }
 
-                mostrarMensagem('Usuario alterada com sucesso!', 'success');
+                mostrarMensagem('Usuario alterado com sucesso!', 'success');
                 limparFormulario();
                 carregarUsuarios();
                 break;
@@ -474,7 +493,7 @@ async function salvarOperacao() {
                     throw new Error('Erro ao excluir usuario: ' + (dataDelUsuario.mensagem || respDelUsuario.status));
                 }
 
-                mostrarMensagem('Usuario excluída com sucesso!', 'success');
+                mostrarMensagem('Usuario excluído com sucesso!', 'success');
                 limparFormulario();
                 carregarUsuarios();
                 break;
@@ -518,6 +537,7 @@ function renderizarTabelaUsuarios(usuarios) {
 
     usuarios.forEach(usuario => {
         const row = document.createElement('tr');
+
         row.innerHTML = `
             <td>
                 <button class="btn-id" onclick="selecionarUsuario(${usuario.cpf_usuario})">
@@ -525,15 +545,16 @@ function renderizarTabelaUsuarios(usuarios) {
                 </button>
             </td>
             <td>${usuario.nome_usuario}</td>
-            <td>${formatarData(usuario.data_nascimento_usuario)}</td>                 
+            <td>${formatarData(usuario.data_nascimento_usuario)}</td>
             <td>${usuario.endereco_usuario}</td>
             <td>${usuario.senha_usuario}</td>
             <td>${usuario.email_usuario}</td>
+            <td>${usuario.tipo_usuario}</td>
         `;
+
         usuariosTableBody.appendChild(row);
     });
 }
-
 async function selecionarUsuario(id) {
     searchId.value = id;
     await buscarUsuario();

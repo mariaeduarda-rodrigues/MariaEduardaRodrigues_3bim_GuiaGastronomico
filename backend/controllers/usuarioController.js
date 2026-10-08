@@ -9,14 +9,28 @@ exports.listarUsuarios = async (req, res) => {
     try {
         const result = await query(`
             SELECT
-                cpf_usuario,
-                nome_usuario,
-                data_nascimento_usuario,
-                endereco_usuario,
-                senha_usuario,
-                email_usuario
-            FROM usuario
-            ORDER BY cpf_usuario
+                u.cpf_usuario,
+                u.nome_usuario,
+                u.data_nascimento_usuario,
+                u.endereco_usuario,
+                u.senha_usuario,
+                u.email_usuario,
+                CASE
+                    WHEN c.usuario_cpf_usuario IS NOT NULL
+                         AND f.usuario_cpf_usuario IS NOT NULL
+                        THEN 'Cliente e Funcionário'
+                    WHEN c.usuario_cpf_usuario IS NOT NULL
+                        THEN 'Cliente'
+                    WHEN f.usuario_cpf_usuario IS NOT NULL
+                        THEN 'Funcionário'
+                    ELSE 'Sem tipo'
+                END AS tipo_usuario
+            FROM usuario u
+            LEFT JOIN cliente c
+                ON u.cpf_usuario = c.usuario_cpf_usuario
+            LEFT JOIN funcionario f
+                ON u.cpf_usuario = f.usuario_cpf_usuario
+            ORDER BY u.cpf_usuario
         `);
 
         res.json({
@@ -32,7 +46,6 @@ exports.listarUsuarios = async (req, res) => {
         });
     }
 };
-
 exports.criarUsuario = async (req, res) => {
     try {
         const {

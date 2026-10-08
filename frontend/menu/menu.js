@@ -3,7 +3,7 @@ const URL_API = 'http://localhost:3000';
 // Verifica a conexão com o servidor backend ao carregar a página
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const resposta = await fetch(`${URL_API}/produto/listar`);
+        const resposta = await fetch(`${URL_API}/prato/listar`);
         if (resposta.ok) {
             console.log('Servidor backend conectado com sucesso!');
         }

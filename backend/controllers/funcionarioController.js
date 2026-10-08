@@ -32,51 +32,60 @@ exports.listarFuncionarios = async (req, res) => {
 
 // Criar funcionário
 exports.criarFuncionario = async (req, res) => {
-  try {
-    const {
-      usuario_cpf_usuario,
-      categoria_id_categoria
-    } = req.body;
+    try {
+        const {
+            usuario_cpf_usuario,
+            salario_funcionario,
+            porcentagem_comissao_funcionario
+        } = req.body;
 
-    if (!usuario_cpf_usuario || !categoria_id_categoria) {
-      return res.status(400).json({
-        error: 'CPF do usuário e categoria são obrigatórios'
-      });
+        if (!usuario_cpf_usuario) {
+            return res.status(400).json({
+                error: 'CPF do usuário é obrigatório'
+            });
+        }
+
+        const result = await query(
+            `
+            INSERT INTO funcionario
+            (usuario_cpf_usuario, salario_funcionario, porcentagem_comissao_funcionario)
+            VALUES ($1, $2, $3)
+            RETURNING *
+            `,
+            [
+                usuario_cpf_usuario,
+                salario_funcionario,
+                porcentagem_comissao_funcionario
+            ]
+        );
+
+        res.status(201).json({
+            sucesso: true,
+            funcionario: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error('Erro ao criar funcionário:', error);
+
+        if (error.code === '23505') {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'Este funcionário já está cadastrado'
+            });
+        }
+
+        if (error.code === '23503') {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'Usuário não encontrado'
+            });
+        }
+
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro interno do servidor'
+        });
     }
-
-    const result = await query(
-      `
-      INSERT INTO funcionario
-      (usuario_cpf_usuario, categoria_id_categoria)
-      VALUES ($1, $2)
-      RETURNING *
-      `,
-      [
-        usuario_cpf_usuario,
-        categoria_id_categoria
-      ]
-    );
-
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error('Erro ao criar funcionário:', error);
-
-    if (error.code === '23505') {
-      return res.status(400).json({
-        error: 'Este funcionário já está cadastrado'
-      });
-    }
-
-    if (error.code === '23503') {
-      return res.status(400).json({
-        error: 'Usuário ou categoria não encontrada'
-      });
-    }
-
-    res.status(500).json({
-      error: 'Erro interno do servidor'
-    });
-  }
 };
 
 // Obter funcionário
@@ -121,40 +130,49 @@ exports.obterFuncionario = async (req, res) => {
 
 // Atualizar funcionário
 exports.atualizarFuncionario = async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
+    try {
+        const id = req.params.id;
 
-    const {
-      categoria_id_categoria
-    } = req.body;
+        const {
+            salario_funcionario,
+            porcentagem_comissao_funcionario
+        } = req.body;
 
-    const resultado = await query(
-      `
-      UPDATE funcionario
-      SET categoria_id_categoria = $1
-      WHERE usuario_cpf_usuario = $2
-      RETURNING *
-      `,
-      [
-        categoria_id_categoria,
-        id
-      ]
-    );
+        const resultado = await query(
+            `
+            UPDATE funcionario
+            SET salario_funcionario = $1,
+                porcentagem_comissao_funcionario = $2
+            WHERE usuario_cpf_usuario = $3
+            RETURNING *
+            `,
+            [
+                salario_funcionario,
+                porcentagem_comissao_funcionario,
+                id
+            ]
+        );
 
-    if (resultado.rows.length === 0) {
-      return res.status(404).json({
-        error: 'Funcionário não encontrado'
-      });
+        if (resultado.rows.length === 0) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: 'Funcionário não encontrado'
+            });
+        }
+
+        res.json({
+            sucesso: true,
+            funcionario: resultado.rows[0]
+        });
+
+    } catch (error) {
+        console.error('Erro ao atualizar funcionário:', error);
+
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro interno do servidor'
+        });
     }
-
-    res.json(resultado.rows[0]);
-  } catch (error) {
-    console.error('Erro ao atualizar funcionário:', error);
-
-    res.status(500).json({
-      error: 'Erro interno do servidor'
-    });
-  }
 };
 
 // Deletar funcionário

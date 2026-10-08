@@ -142,7 +142,6 @@ ALTER TABLE ONLY public.medida ADD CONSTRAINT medida_pkey PRIMARY KEY (id_medida
 ALTER TABLE ONLY public.forma_pagamento ADD CONSTRAINT forma_pagamento_pkey PRIMARY KEY (id_forma_pagamento);
 ALTER TABLE ONLY public.cliente ADD CONSTRAINT cliente_pkey PRIMARY KEY (usuario_cpf_usuario);
 ALTER TABLE ONLY public.funcionario ADD CONSTRAINT funcionario_pkey PRIMARY KEY (usuario_cpf_usuario);
-ALTER TABLE ONLY public.prato ADD CONSTRAINT prato_pkey PRIMARY KEY (id_prato);
 ALTER TABLE ONLY public.pedido ADD CONSTRAINT pedido_pkey PRIMARY KEY (id_pedido);
 ALTER TABLE ONLY public.pagamento ADD CONSTRAINT pagamento_pkey PRIMARY KEY (pedido_id_pedido);
 ALTER TABLE ONLY public.pedido_has_prato ADD CONSTRAINT pedido_has_prato_pkey PRIMARY KEY (prato_id_prato, pedido_id_pedido);
@@ -153,8 +152,6 @@ ALTER TABLE ONLY public.cliente ADD CONSTRAINT fk_cliente_usuario FOREIGN KEY (u
 
 ALTER TABLE ONLY public.funcionario ADD CONSTRAINT fk_funcionario_usuario FOREIGN KEY (usuario_cpf_usuario) REFERENCES public.usuario (cpf_usuario);
 ALTER TABLE ONLY public.funcionario ADD CONSTRAINT fk_funcionario_categoria FOREIGN KEY (categoria_id_categoria) REFERENCES public.categoria (id_categoria);
-
-ALTER TABLE ONLY public.prato ADD CONSTRAINT fk_prato_medida FOREIGN KEY (id_medida) REFERENCES public.medida (id_medida);
 
 ALTER TABLE ONLY public.pedido ADD CONSTRAINT fk_pedido_cliente FOREIGN KEY (cliente_usuario_cpf_usuario) REFERENCES public.cliente (usuario_cpf_usuario);
 ALTER TABLE ONLY public.pedido ADD CONSTRAINT fk_pedido_funcionario FOREIGN KEY (funcionario_usuario_cpf_usuario) REFERENCES public.funcionario (usuario_cpf_usuario);
@@ -248,21 +245,21 @@ INSERT INTO public.funcionario VALUES ('77777777777', 2200, 7, 5);
 INSERT INTO public.funcionario VALUES ('88888888888', 1900, 8, 3);
 INSERT INTO public.funcionario VALUES ('99999999999', 2800, 9, 7);
 INSERT INTO public.funcionario VALUES ('10101010101', 5000, 2, 15);
-INSERT INTO public.funcionario VALUES ('00000000000', 0, 0, 0);
+INSERT INTO public.funcionario VALUES ('00000000000', 0, 1, 0);
 INSERT INTO public.funcionario VALUES ('1', 1111, 2, 1);
 
 -- 5.7 PRATO
-INSERT INTO public.prato VALUES (8, 'Pizza Margherita', 40, 39.90, 'UN');
-INSERT INTO public.prato VALUES (9, 'Pizza Calabresa', 35, 42.90, 'UN');
-INSERT INTO public.prato VALUES (4, 'Lasanha Bolonhesa', 30, 36.90, 'UN');
-INSERT INTO public.prato VALUES (1, 'Fettuccine Alfredo', 25, 34.90, 'UN');
-INSERT INTO public.prato VALUES (3, 'Nhoque ao Molho', 28, 32.90, 'UN');
-INSERT INTO public.prato VALUES (5, 'Hambúrguer Artesanal', 45, 29.90, 'UN');
-INSERT INTO public.prato VALUES (7, 'Batata Frita', 50, 18.90, 'UN');
-INSERT INTO public.prato VALUES (10, 'Coxinha de Frango', 60, 8.90, 'UN');
-INSERT INTO public.prato VALUES (2, 'Pastel de Queijo', 55, 9.90, 'UN');
-INSERT INTO public.prato VALUES (6, 'Escondidinho de Carne', 25, 31.90, 'UN');
-INSERT INTO public.prato VALUES (50, 'Risoto de Frango', 22, 35.90, 'UN');
+INSERT INTO public.prato VALUES (8, 'Pizza Margherita', 40, 39.90, 'UN', 1);
+INSERT INTO public.prato VALUES (9, 'Pizza Calabresa', 35, 42.90, 'UN', 1);
+INSERT INTO public.prato VALUES (4, 'Lasanha Bolonhesa', 30, 36.90, 'UN', 2);
+INSERT INTO public.prato VALUES (1, 'Fettuccine Alfredo', 25, 34.90, 'UN', 2);
+INSERT INTO public.prato VALUES (3, 'Nhoque ao Molho', 28, 32.90, 'UN', 2);
+INSERT INTO public.prato VALUES (5, 'Hambúrguer Artesanal', 45, 29.90, 'UN', 3);
+INSERT INTO public.prato VALUES (7, 'Batata Frita', 50, 18.90, 'UN', 4);
+INSERT INTO public.prato VALUES (10, 'Coxinha de Frango', 60, 8.90, 'UN', 5);
+INSERT INTO public.prato VALUES (2, 'Pastel de Queijo', 55, 9.90, 'UN', 5);
+INSERT INTO public.prato VALUES (6, 'Escondidinho de Carne', 25, 31.90, 'UN', 9);
+INSERT INTO public.prato VALUES (50, 'Risoto de Frango', 22, 35.90, 'UN', 10);
 
 -- 5.8 PEDIDO
 INSERT INTO public.pedido VALUES (3, '2024-02-03', '55555555555', '66666666666');

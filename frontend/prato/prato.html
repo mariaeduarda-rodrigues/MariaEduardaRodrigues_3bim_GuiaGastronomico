@@ -61,15 +61,19 @@
                 </div>
             </section>
 
-            <aside class="form-direita">
-                <h2>📷 Foto do Prato</h2>
-                
+          <aside class="form-direita">
+    <h2>📷 Foto do Prato</h2>
 
-                <div class="img-container">
-                    <img id="imgPrato" src="http://localhost:3000/imagens/silhueta.jpg" alt="Foto do prato">
-               
-                </div>
-            </aside>
+    <div class="img-container">
+        <img id="imgPrato"
+             src="http://localhost:3000/imagens/silhueta.jpg"
+             alt="Foto do prato">
+    </div>
+
+    <button type="button" onclick="acionarUpload()">📷 Escolher imagem</button>
+
+    <input type="file" id="inputImagem" accept="image/*" onchange="previewImagem()"  style="display:none;">
+</aside>
         </div>
 
         <section class="lista-prato">
