@@ -75,11 +75,11 @@ exports.criarCliente = async (req, res) => {
 
 exports.obterCliente = async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = String(req.params.id || '').trim();
 
-    if (isNaN(id)) {
+    if (!id) {
       return res.status(400).json({
-        error: 'ID deve ser um número válido'
+        error: 'CPF inválido'
       });
     }
 

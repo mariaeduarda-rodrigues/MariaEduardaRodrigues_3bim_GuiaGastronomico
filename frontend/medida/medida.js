@@ -1,4 +1,4 @@
-const URL_API = 'http://localhost:3000';
+const URL_API = '';
 
 let oQueEstaFazendo = '';
 let unidadeMedida = null;
@@ -7,9 +7,9 @@ bloquearAtributos(true);
 
 async function procurePorChavePrimaria(chave) {
     try {
-        const resposta = await fetch(`${URL_API}/medida/${chave}`);
+        const resposta = await fetch(`${URL_API}/medida/${encodeURIComponent(chave)}`);
         const data = await resposta.json();
-        return data.sucesso ? data.unidade : null;
+        return data.sucesso ? data.medida : null;
     } catch (erro) {
         return null;
     }
@@ -61,7 +61,7 @@ function excluir() {
 
 async function salvar() {
     const id_medida = document.getElementById("inputId_medida").value.trim().toUpperCase();
-    const nome_medida = document.getElementById("inputNome_medida").value;
+    const nome_medida = document.getElementById("inputNome_medida").value.trim();
     const dadosUnidade = { id_medida, nome_medida };
 
     try {
@@ -69,22 +69,27 @@ async function salvar() {
             const resp = await fetch(`${URL_API}/medida`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify(dadosUnidade)
             });
             const data = await resp.json();
             if (!data.sucesso) return mostrarAviso(data.mensagem);
             mostrarAviso("Inserido no Banco de Dados com sucesso!");
         } else if (oQueEstaFazendo === 'alterando') {
-            const resp = await fetch(`${URL_API}/medida/${id_medida}`, {
+            const resp = await fetch(`${URL_API}/medida/${encodeURIComponent(id_medida)}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify(dadosUnidade)
             });
             const data = await resp.json();
             if (!data.sucesso) return mostrarAviso(data.mensagem);
             mostrarAviso("Alterado no Banco de Dados com sucesso!");
         } else if (oQueEstaFazendo === 'excluindo') {
-            const resposta = await fetch(`${URL_API}/medida/${id_medida}`, { method: 'DELETE' });
+            const resposta = await fetch(`${URL_API}/medida/${encodeURIComponent(id_medida)}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
             const data = await resposta.json();
             if (!data.sucesso) return mostrarAviso(data.mensagem || "Erro ao excluir no servidor.");
             mostrarAviso("Excluído do Banco de Dados!");

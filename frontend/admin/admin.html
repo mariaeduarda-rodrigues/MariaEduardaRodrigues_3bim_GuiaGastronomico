@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEVORA - Painel Administrativo</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>🍽️ DEVORA — Administração</h1>
+        <p>Painel do funcionário</p>
+        <nav>
+            <a href="admin.html">Início</a>
+            <a href="../prato/prato.html">Pratos</a>
+            <a href="../categoria/categoria.html">Categorias</a>
+            <a href="../medida/medida.html">Medidas</a>
+            <a href="../usuario/usuario.html">Usuários</a>
+            <a href="../cliente/cliente.html">Ver loja</a>
+            <a href="#" id="btnSair" class="nav-sair">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container-master">
+        <section>
+            <h2>Resumo do sistema</h2>
+            <div class="resumo">
+                <div class="resumo-item"><strong id="qtdPratos">–</strong><span>Pratos</span></div>
+                <div class="resumo-item"><strong id="qtdCategorias">–</strong><span>Categorias</span></div>
+                <div class="resumo-item"><strong id="qtdMedidas">–</strong><span>Medidas</span></div>
+                <div class="resumo-item"><strong id="qtdUsuarios">–</strong><span>Usuários</span></div>
+            </div>
+
+            <h2>Gerenciar</h2>
+            <div class="menu-grid">
+                <a href="../prato/prato.html" class="card-menu">
+                    <div class="card-icon">🍝</div>
+                    <h2>Pratos</h2>
+                    <p>Cadastre pratos, preços, estoque e imagens.</p>
+                </a>
+                <a href="../categoria/categoria.html" class="card-menu">
+                    <div class="card-icon">🏷️</div>
+                    <h2>Categorias</h2>
+                    <p>Organize o cardápio por categorias.</p>
+                </a>
+                <a href="../medida/medida.html" class="card-menu">
+                    <div class="card-icon">📏</div>
+                    <h2>Medidas</h2>
+                    <p>Unidades de medida usadas nos pratos.</p>
+                </a>
+                <a href="../usuario/usuario.html" class="card-menu">
+                    <div class="card-icon">👤</div>
+                    <h2>Usuários</h2>
+                    <p>Clientes e funcionários do sistema.</p>
+                </a>
+            </div>
+        </section>
+
+        <aside>
+            <h2>🔒 Área restrita</h2>
+            <p>Acesso exclusivo para funcionários. Para voltar à loja, use "Ver loja" no menu.</p>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Maria Eduarda Rodrigues Ferreira — Turma M32 — 2026</p>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>

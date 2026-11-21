@@ -1,0 +1,873 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   VARIÁVEIS E BASE
+   ========================================================== */
+
+:root {
+  --vinho: #5a1a16;
+  --vinho-escuro: #2b0b09;
+  --dourado: #c9a24b;
+  --dourado-claro: #e6cd8f;
+  --fundo: #faf6ef;
+  --texto: #2a2522;
+  --suave: #756b63;
+  --branco: #fff;
+  --borda: #eadfcb;
+  --titulo: "Cormorant Garamond", Georgia, serif;
+  --corpo: "Jost", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 95px;
+}
+
+body {
+  font-family: var(--corpo);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+/* ==========================================================
+   CABEÇALHO E NAVEGAÇÃO
+   ========================================================== */
+
+.topo {
+  height: 88px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 3px 20px #2b0b090c;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--vinho);
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--dourado);
+  display: grid;
+  place-items: center;
+  font: 700 30px var(--titulo);
+  color: var(--dourado);
+}
+
+.marca strong {
+  display: block;
+  font: 700 20px var(--titulo);
+  letter-spacing: 4px;
+}
+
+.marca small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--suave);
+}
+
+.nav-principal {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-principal a,
+.btn-link {
+  font: 500 12px var(--corpo);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--texto);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.nav-principal a:hover,
+.btn-link:hover {
+  color: var(--dourado);
+}
+
+.acoes-topo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.btn-conta,
+.btn-vinho {
+  background: var(--vinho);
+  color: #fff;
+  border: 1px solid var(--vinho);
+  padding: 12px 22px;
+  font: 500 12px var(--corpo);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-conta:hover,
+.btn-vinho:hover {
+  background: var(--vinho-escuro);
+}
+
+.carrinho-topo {
+  border: 0;
+  background: none;
+  color: var(--vinho);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.carrinho-topo span {
+  font: 600 11px var(--corpo);
+  background: var(--dourado);
+  color: #fff;
+  border-radius: 50%;
+  padding: 3px 7px;
+  vertical-align: top;
+}
+
+/* ==========================================================
+   HERO (DESTAQUE INICIAL)
+   ========================================================== */
+
+.hero {
+  min-height: 490px;
+  padding: 75px 12%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background:
+    linear-gradient(90deg, rgba(43, 11, 9, 0.97), rgba(90, 26, 22, 0.86)),
+    url("../imagens/fundo-devora.jpg") center/cover;
+}
+
+.hero-conteudo {
+  max-width: 560px;
+}
+
+.sobretitulo {
+  display: block;
+  color: var(--dourado);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font: 500 clamp(54px, 7vw, 82px)/0.92 var(--titulo);
+  letter-spacing: 1px;
+}
+
+.hero h1 em {
+  color: var(--dourado-claro);
+  font-weight: 400;
+}
+
+.hero p {
+  max-width: 430px;
+  color: #e6dcd2;
+  margin: 24px 0 30px;
+  font-size: 15px;
+}
+
+.btn-dourado {
+  display: inline-flex;
+  gap: 24px;
+  align-items: center;
+  background: var(--dourado);
+  color: var(--vinho-escuro);
+  padding: 14px 22px;
+  text-decoration: none;
+  border: 0;
+  font: 600 12px var(--corpo);
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.btn-dourado:hover {
+  background: var(--dourado-claro);
+}
+
+.btn-dourado span {
+  font-size: 19px;
+}
+
+.hero-selo {
+  width: 155px;
+  height: 155px;
+  border: 1px solid #c9a24b99;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--dourado-claro);
+  text-align: center;
+  transform: rotate(8deg);
+}
+
+.hero-selo span {
+  font: 600 22px var(--titulo);
+  letter-spacing: 4px;
+}
+
+.hero-selo small {
+  font: italic 14px var(--titulo);
+}
+
+/* ==========================================================
+   FAIXA DE BENEFÍCIOS
+   ========================================================== */
+
+.beneficios {
+  display: flex;
+  justify-content: center;
+  gap: 8%;
+  padding: 26px 5%;
+  background: #fff;
+  border-bottom: 1px solid var(--borda);
+}
+
+.beneficios > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.beneficios > div > span {
+  font-size: 25px;
+  color: var(--dourado);
+}
+
+.beneficios p strong,
+.beneficios p small {
+  display: block;
+}
+
+.beneficios p strong {
+  font: 600 17px var(--titulo);
+  color: var(--vinho);
+}
+
+.beneficios p small {
+  font-size: 11px;
+  color: var(--suave);
+}
+
+/* ==========================================================
+   CARDÁPIO (BUSCA, FILTROS E PRATOS)
+   ========================================================== */
+
+.secao-cardapio {
+  max-width: 1160px;
+  margin: 82px auto;
+  padding: 0 26px;
+}
+
+.cabecalho-secao {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.cabecalho-secao h2,
+.painel-info h2,
+.painel-carrinho h2,
+.faixa-conta h2 {
+  font: 600 42px/1.05 var(--titulo);
+  color: var(--vinho);
+}
+
+.busca {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  padding: 9px 14px;
+  width: 245px;
+  color: var(--dourado);
+}
+
+.busca input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font: 13px var(--corpo);
+  background: transparent;
+}
+
+.filtros {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 27px;
+}
+
+.filtro {
+  padding: 8px 17px;
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: var(--suave);
+  font: 12px var(--corpo);
+  cursor: pointer;
+}
+
+.filtro.ativo,
+.filtro:hover {
+  background: var(--vinho);
+  color: #fff;
+  border-color: var(--vinho);
+}
+
+.grade-pratos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.prato-card {
+  background: #fff;
+  border: 1px solid var(--borda);
+  box-shadow: 0 10px 30px #2b0b090b;
+  overflow: hidden;
+}
+
+.prato-imagem {
+  position: relative;
+  height: 190px;
+  background: linear-gradient(135deg, #eee3d2, #d6c2a4);
+  display: grid;
+  place-items: center;
+  color: #8b7560;
+  font: italic 16px var(--titulo);
+  overflow: hidden;
+}
+
+.prato-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.prato-info {
+  padding: 19px;
+}
+
+.prato-categoria {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dourado);
+  font-weight: 600;
+}
+
+.prato-info h3 {
+  font: 600 25px var(--titulo);
+  color: var(--vinho);
+  margin: 4px 0 12px;
+}
+
+.prato-rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.prato-preco {
+  font-weight: 600;
+  color: var(--vinho);
+}
+
+.adicionar {
+  border: 1px solid var(--dourado);
+  background: transparent;
+  color: var(--vinho);
+  padding: 8px 12px;
+  font: 500 11px var(--corpo);
+  cursor: pointer;
+}
+
+.adicionar:hover {
+  background: var(--dourado);
+  color: var(--vinho-escuro);
+}
+
+.estado-lista {
+  grid-column: 1/-1;
+  text-align: center;
+  color: var(--suave);
+  padding: 45px 10px;
+}
+
+/* ==========================================================
+   MEUS PEDIDOS E CARRINHO
+   ========================================================== */
+
+.area-inferior {
+  max-width: 1160px;
+  margin: 0 auto 80px;
+  padding: 0 26px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.painel-info,
+.painel-carrinho {
+  padding: 34px;
+  background: #fff;
+  border: 1px solid var(--borda);
+}
+
+.painel-info {
+  background: #f2eadd;
+}
+
+.painel-info h2 {
+  max-width: 360px;
+}
+
+.painel-info p {
+  color: var(--suave);
+  font-size: 14px;
+  margin: 17px 0 23px;
+}
+
+.cabecalho-carrinho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icone-sacola {
+  font-size: 28px;
+  color: var(--dourado);
+}
+
+.carrinho-vazio {
+  font-size: 13px;
+  color: var(--suave);
+  padding: 23px 0;
+}
+
+.item-carrinho {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 13px;
+}
+
+.item-carrinho button {
+  border: 0;
+  background: none;
+  color: #a34b42;
+  cursor: pointer;
+}
+
+.total-carrinho {
+  border-top: 1px solid var(--borda);
+  padding: 17px 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--suave);
+}
+
+.total-carrinho strong {
+  color: var(--vinho);
+  font-size: 19px;
+}
+
+.largura-total {
+  width: 100%;
+}
+
+.btn-vinho:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   FAIXA "CRIAR CONTA"
+   ========================================================== */
+
+.faixa-conta {
+  background: var(--vinho-escuro);
+  padding: 40px 12%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.faixa-conta h2 {
+  color: #fff;
+  max-width: 600px;
+}
+
+/* ==========================================================
+   RODAPÉ
+   ========================================================== */
+
+footer {
+  padding: 34px 8%;
+  background: #210806;
+  color: #cfc1b5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+footer p {
+  font: italic 18px var(--titulo);
+}
+
+footer > small {
+  font-size: 10px;
+}
+
+.marca-rodape {
+  color: #fff;
+}
+
+.marca-rodape small {
+  color: #cfc1b5;
+}
+
+/* ==========================================================
+   MODAL DE LOGIN E CADASTRO
+   ========================================================== */
+
+.modal-fundo {
+  position: fixed;
+  inset: 0;
+  background: #160604b8;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  z-index: 30;
+}
+
+.modal-fundo.aberto {
+  display: grid;
+}
+
+.modal {
+  position: relative;
+  background: var(--fundo);
+  width: min(100%, 440px);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 35px 38px;
+  text-align: center;
+  box-shadow: 0 20px 70px #0004;
+}
+
+.fechar-modal {
+  position: absolute;
+  right: 17px;
+  top: 10px;
+  border: 0;
+  background: none;
+  font-size: 28px;
+  color: var(--vinho);
+  cursor: pointer;
+}
+
+.modal-marca {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 15px;
+  border: 1px solid var(--dourado);
+  display: grid;
+  place-items: center;
+  color: var(--dourado);
+  font: 700 32px var(--titulo);
+}
+
+.modal h2 {
+  font: 600 35px var(--titulo);
+  color: var(--vinho);
+}
+
+.texto-modal {
+  font-size: 12px;
+  color: var(--suave);
+  margin: 5px 0 20px;
+}
+
+.form-acesso {
+  text-align: left;
+  display: grid;
+  gap: 12px;
+}
+
+.form-acesso label {
+  font-size: 11px;
+  color: var(--suave);
+  font-weight: 600;
+}
+
+.form-acesso input {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  margin-top: 5px;
+  border: 1px solid var(--borda);
+  background: #fff;
+  outline-color: var(--dourado);
+  font: 13px var(--corpo);
+}
+
+.alternar-acesso {
+  font-size: 12px;
+  color: var(--suave);
+  margin-top: 18px;
+}
+
+.alternar-acesso button {
+  border: 0;
+  background: none;
+  color: var(--vinho);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.alternar-acesso a {
+  color: var(--vinho);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mensagem-form {
+  font-size: 12px;
+  color: var(--vinho);
+  margin-top: 12px;
+  min-height: 18px;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* ==========================================================
+   SESSÃO (SAUDAÇÃO E ESCOLHA DE PERFIL)
+   ========================================================== */
+
+.saudacao {
+  font: 500 12px var(--corpo);
+  color: var(--vinho);
+}
+
+.escolha-perfil {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.escolha-perfil .texto-modal {
+  margin: 0 0 6px;
+}
+
+.escolha-perfil .btn-dourado {
+  justify-content: center;
+}
+
+/* ==========================================================
+   AVISO DE ESTOQUE BAIXO
+   ========================================================== */
+
+.selo-estoque-baixo {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--vinho-escuro);
+  color: var(--dourado-claro);
+  border: 1px solid var(--dourado);
+  padding: 4px 10px;
+  font: 600 10px var(--corpo);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.aviso-estoque {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--vinho-escuro);
+  color: var(--branco);
+  border: 1px solid var(--dourado);
+  border-left: 4px solid var(--dourado);
+  box-shadow: 0 14px 36px #16060455;
+  z-index: 40;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.aviso-estoque.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aviso-estoque.limite {
+  border-left-color: #d96b5f;
+}
+
+.aviso-estoque-icone {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border: 1px solid var(--dourado);
+  display: grid;
+  place-items: center;
+  font: 700 18px var(--titulo);
+  color: var(--dourado);
+}
+
+.aviso-estoque strong {
+  display: block;
+  font: 600 12px var(--corpo);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--dourado-claro);
+  margin-bottom: 2px;
+}
+
+.aviso-estoque p {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #f3ece2;
+}
+
+/* ==========================================================
+   RESPONSIVO — TABLET
+   ========================================================== */
+
+@media (max-width: 850px) {
+  .topo {
+    padding: 0 4%;
+    height: auto;
+    min-height: 78px;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav-principal {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 20px;
+  }
+  .acoes-topo {
+    gap: 10px;
+  }
+  .hero {
+    padding: 65px 8%;
+  }
+  .grade-pratos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .beneficios {
+    gap: 25px;
+    flex-wrap: wrap;
+  }
+  .area-inferior {
+    grid-template-columns: 1fr;
+  }
+  footer {
+    flex-wrap: wrap;
+  }
+}
+
+/* ==========================================================
+   RESPONSIVO — CELULAR
+   ========================================================== */
+
+@media (max-width: 560px) {
+  .marca strong {
+    font-size: 17px;
+  }
+  .btn-conta {
+    padding: 9px 12px;
+  }
+  .nav-principal a {
+    font-size: 10px;
+  }
+  .hero {
+    min-height: 390px;
+  }
+  .hero-selo {
+    display: none;
+  }
+  .cabecalho-secao {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .busca {
+    width: 100%;
+  }
+  .grade-pratos {
+    grid-template-columns: 1fr;
+  }
+  .beneficios {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 12%;
+  }
+  .faixa-conta {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 35px 8%;
+  }
+  .faixa-conta h2 {
+    font-size: 34px;
+  }
+  .modal {
+    padding: 30px 22px;
+  }
+  .aviso-estoque {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+  footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}

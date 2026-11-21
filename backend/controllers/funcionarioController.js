@@ -91,11 +91,13 @@ exports.criarFuncionario = async (req, res) => {
 // Obter funcionário
 exports.obterFuncionario = async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    // CPF é texto (pode começar com zero), por isso não usamos parseInt
+    const id = String(req.params.id || '').trim();
 
-    if (isNaN(id)) {
+    if (!id) {
       return res.status(400).json({
-        error: 'ID deve ser um número válido'
+        sucesso: false,
+        mensagem: 'CPF inválido'
       });
     }
 
@@ -104,26 +106,33 @@ exports.obterFuncionario = async (req, res) => {
       SELECT
         f.usuario_cpf_usuario,
         u.nome_usuario,
+        f.salario_funcionario,
+        f.porcentagem_comissao_funcionario,
         f.categoria_id_categoria
-      FROM funcionario f, usuario u
-      WHERE f.usuario_cpf_usuario = u.cpf_usuario
-        AND f.usuario_cpf_usuario = $1
+      FROM funcionario f
+      JOIN usuario u ON f.usuario_cpf_usuario = u.cpf_usuario
+      WHERE f.usuario_cpf_usuario = $1
       `,
       [id]
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
-        error: 'Funcionário não encontrado'
+        sucesso: false,
+        mensagem: 'Funcionário não encontrado'
       });
     }
 
-    res.json(result.rows[0]);
+    res.json({
+      sucesso: true,
+      funcionario: result.rows[0]
+    });
   } catch (error) {
     console.error('Erro ao obter funcionário:', error);
 
     res.status(500).json({
-      error: 'Erro interno do servidor'
+      sucesso: false,
+      mensagem: 'Erro interno do servidor'
     });
   }
 };

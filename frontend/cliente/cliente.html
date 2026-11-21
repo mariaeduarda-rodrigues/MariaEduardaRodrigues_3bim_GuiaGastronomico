@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Área do cliente DEVORA - explore o cardápio e faça seus pedidos.">
+  <title>DEVORA | Área do Cliente</title>
+  <link rel="stylesheet" href="cliente.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="#inicio" aria-label="DEVORA - início">
+      <span class="marca-simbolo">D</span>
+      <span><strong>DEVORA</strong><small>GUIA GASTRONÔMICO</small></span>
+    </a>
+    <nav class="nav-principal" aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#pedidos">Meus pedidos</a>
+    </nav>
+    <div class="acoes-topo">
+      <button class="btn-link" id="abrirLogin">Entrar</button>
+      <button class="btn-conta" id="abrirCadastro">Criar conta</button>
+      <span class="saudacao oculto" id="saudacao"></span>
+      <a class="btn-link oculto" id="linkAdmin" href="/frontend/admin/admin.html">Painel admin</a>
+      <button class="btn-link oculto" id="btnSair">Sair</button>
+      <button class="carrinho-topo" id="irCarrinho" aria-label="Abrir carrinho">♧ <span id="contadorCarrinho">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-conteudo">
+        <span class="sobretitulo">UMA EXPERIÊNCIA PARA SABOREAR</span>
+        <h1>Descubra novos<br><em>sabores.</em></h1>
+        <p>Encontre seus pratos favoritos, escolha com carinho e faça seu pedido em poucos passos.</p>
+        <a class="btn-dourado" href="#cardapio">Explorar cardápio <span>→</span></a>
+      </div>
+      <div class="hero-selo"><span>DEVORA</span><small>O prazer de<br>descobrir.</small></div>
+    </section>
+
+    <section class="beneficios" aria-label="Vantagens">
+      <div><span>✦</span><p><strong>Variedade</strong><small>Opções para todos os gostos</small></p></div>
+      <div><span>♡</span><p><strong>Praticidade</strong><small>Seu pedido em poucos cliques</small></p></div>
+      <div><span>⌂</span><p><strong>Seu espaço</strong><small>Acompanhe seus pedidos</small></p></div>
+    </section>
+
+    <section class="secao-cardapio" id="cardapio">
+      <div class="cabecalho-secao">
+        <div><span class="sobretitulo">ESCOLHA O QUE VAI TE CONQUISTAR</span><h2>Nosso cardápio</h2></div>
+        <label class="busca"><span>⌕</span><input id="buscaPrato" type="search" placeholder="Buscar prato..."></label>
+      </div>
+      <div class="filtros" id="filtrosCategorias"><button class="filtro ativo" data-categoria="todos">Todos</button></div>
+      <div class="grade-pratos" id="listaPratos">
+        <p class="estado-lista">Carregando o cardápio...</p>
+      </div>
+    </section>
+
+    <section class="area-inferior" id="pedidos">
+      <article class="painel-info" id="painelPedidos">
+        <span class="sobretitulo">ACOMPANHE TUDO</span>
+        <h2>Seus pedidos, em um só lugar.</h2>
+        <p>Entre na sua conta para consultar o histórico e acompanhar seus pedidos.</p>
+        <button class="btn-vinho" id="loginPedidos">Entrar na minha conta</button>
+      </article>
+      <article class="painel-carrinho" id="carrinho">
+        <div class="cabecalho-carrinho"><div><span class="sobretitulo">SUA SELEÇÃO</span><h2>Meu carrinho</h2></div><span class="icone-sacola">♧</span></div>
+        <div id="itensCarrinho"><p class="carrinho-vazio">Seu carrinho está vazio. Escolha algo delicioso no cardápio!</p></div>
+        <div class="total-carrinho"><span>Total</span><strong id="valorTotal">R$ 0,00</strong></div>
+        <button class="btn-vinho largura-total" id="finalizarPedido" disabled>Continuar para finalizar</button>
+      </article>
+    </section>
+
+    <section class="faixa-conta">
+      <div><span class="sobretitulo">FAÇA PARTE DO DEVORA</span><h2>Seu próximo prato favorito está esperando.</h2></div>
+      <button class="btn-dourado" id="criarContaFaixa">Criar minha conta <span>→</span></button>
+    </section>
+  </main>
+
+  <footer><a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">D</span><span><strong>DEVORA</strong><small>GUIA GASTRONÔMICO</small></span></a><p>Uma boa experiência começa à mesa.</p><small>© 2026 DEVORA — Maria Eduarda Rodrigues Ferreira — Turma M32</small></footer>
+
+  <div class="modal-fundo" id="modalAcesso" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModal">
+      <button class="fechar-modal" id="fecharModal" aria-label="Fechar">×</button>
+      <div class="modal-marca">D</div>
+      <span class="sobretitulo">BEM-VINDO AO DEVORA</span>
+      <h2 id="tituloModal">Crie sua conta</h2>
+      <p class="texto-modal" id="textoModal">Preencha seus dados para fazer parte do DEVORA.</p>
+      <form id="formCadastro" class="form-acesso">
+        <label>Nome completo<input type="text" name="nome_usuario" placeholder="Seu nome" required></label>
+        <label>CPF<input type="text" name="cpf_usuario" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" required></label>
+        <label>Data de nascimento<input type="date" name="data_nascimento_usuario" id="dataNascimentoCadastro" required></label>
+        <label>E-mail<input type="email" name="email_usuario" placeholder="seuemail@exemplo.com" required></label>
+        <label>Endereço<input type="text" name="endereco_usuario" placeholder="Rua, número e cidade"></label>
+        <label>Senha<input type="password" name="senha_usuario" minlength="6" placeholder="Mínimo de 6 caracteres" required></label>
+        <button class="btn-vinho largura-total" type="submit">Criar conta</button>
+      </form>
+      <p class="alternar-acesso">Já tem uma conta? <a href="/frontend/login/login.html">Entrar</a></p>
+      <p class="mensagem-form" id="mensagemForm" role="status"></p>
+    </section>
+  </div>
+  <script src="cliente.js"></script>
+</body>
+</html>

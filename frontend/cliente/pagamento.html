@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVORA | Finalizar pedido</title>
+
+  <link rel="stylesheet" href="pagamento.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="topo-pagamento">
+    <a class="marca" href="cliente.html">
+      <span class="marca-simbolo">D</span>
+      <span>
+        <strong>DEVORA</strong>
+        <small>GUIA GASTRONÔMICO</small>
+      </span>
+    </a>
+
+    <a href="cliente.html#carrinho" class="voltar">
+      ← Voltar ao carrinho
+    </a>
+  </header>
+
+  <main class="pagina-pagamento">
+
+    <div class="titulo-pagina">
+      <span>ESTAMOS QUASE LÁ</span>
+      <h1>Finalizar pedido</h1>
+      <p>Confira seus dados e escolha como deseja pagar.</p>
+    </div>
+
+    <div class="conteudo-pagamento">
+
+      <form id="formPagamento">
+
+        <section class="bloco-pagamento">
+
+          <span class="numero-etapa">01</span>
+          <h2>Dados de entrega</h2>
+          <p>Informe onde deseja receber seu pedido.</p>
+
+          <label for="nomeCliente">Nome completo</label>
+          <input
+            type="text"
+            id="nomeCliente"
+            readonly
+          >
+
+          <label for="enderecoEntrega">Endereço de entrega</label>
+          <input
+            type="text"
+            id="enderecoEntrega"
+            placeholder="Rua, número, bairro e cidade"
+            required
+          >
+
+        </section>
+
+        <section class="bloco-pagamento">
+
+          <span class="numero-etapa">02</span>
+          <h2>Forma de pagamento</h2>
+          <p>Escolha a opção desejada.</p>
+
+          <div class="opcoes-pagamento">
+
+            <label class="opcao-pagamento">
+              <input
+                type="radio"
+                name="formaPagamento"
+                value="4"
+                required
+              >
+              <span>
+                <strong>Pix</strong>
+                <small>Pagamento instantâneo via QR Code</small>
+              </span>
+              <span class="icone-pagamento">◇</span>
+            </label>
+
+            <label class="opcao-pagamento">
+              <input
+                type="radio"
+                name="formaPagamento"
+                value="2"
+              >
+              <span>
+                <strong>Cartão de crédito</strong>
+                <small>Pagamento com cartão de crédito</small>
+              </span>
+              <span class="icone-pagamento">▣</span>
+            </label>
+
+            <label class="opcao-pagamento">
+              <input
+                type="radio"
+                name="formaPagamento"
+                value="3"
+              >
+              <span>
+                <strong>Cartão de débito</strong>
+                <small>Pagamento com cartão de débito</small>
+              </span>
+              <span class="icone-pagamento">▣</span>
+            </label>
+
+            <label class="opcao-pagamento">
+              <input
+                type="radio"
+                name="formaPagamento"
+                value="1"
+              >
+              <span>
+                <strong>Dinheiro</strong>
+                <small>Pagamento na entrega</small>
+              </span>
+              <span class="icone-pagamento">R$</span>
+            </label>
+
+          </div>
+
+          <!-- PAINEL DINÂMICO: PIX -->
+          <div id="detalhesPix" class="painel-metodo oculto">
+            <div class="pix-conteudo">
+              <div class="pix-moldura">
+                <div id="qrcodePix"></div>
+              </div>
+              <div class="pix-info">
+                <span class="pix-tag">PAGAMENTO INSTANTÂNEO</span>
+                <h3>Escaneie o QR Code</h3>
+                <p>Abra o app do seu banco, escolha pagar com Pix e aponte a câmera para o código ao lado.</p>
+
+                <label for="codigoPixTexto">Pix Copia e Cola</label>
+                <div class="pix-copiar-grupo">
+                  <input type="text" id="codigoPixTexto" readonly>
+                  <button type="button" id="btnCopiarPix" class="btn-copiar">Copiar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAINEL DINÂMICO: CARTÃO -->
+          <div id="detalhesCartao" class="painel-metodo oculto">
+            <span class="pix-tag" id="tituloCartao">DADOS DO CARTÃO</span>
+
+            <div class="grid-cartao">
+              <div class="campo-cartao col-total">
+                <label for="numeroCartao">Número do cartão</label>
+                <input
+                  type="text"
+                  id="numeroCartao"
+                  inputmode="numeric"
+                  maxlength="19"
+                  placeholder="0000 0000 0000 0000"
+                >
+              </div>
+
+              <div class="campo-cartao col-total">
+                <label for="nomeCartao">Nome impresso no cartão</label>
+                <input
+                  type="text"
+                  id="nomeCartao"
+                  placeholder="COMO ESTÁ NO CARTÃO"
+                >
+              </div>
+
+              <div class="campo-cartao">
+                <label for="validadeCartao">Validade</label>
+                <input
+                  type="text"
+                  id="validadeCartao"
+                  inputmode="numeric"
+                  maxlength="5"
+                  placeholder="MM/AA"
+                >
+              </div>
+
+              <div class="campo-cartao">
+                <label for="cvvCartao">CVV</label>
+                <input
+                  type="text"
+                  id="cvvCartao"
+                  inputmode="numeric"
+                  maxlength="4"
+                  placeholder="000"
+                >
+              </div>
+
+              <div class="campo-cartao col-total" id="campoParcelas">
+                <label for="parcelasCartao">Parcelamento</label>
+                <select id="parcelasCartao"></select>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </form>
+
+      <aside class="resumo-pedido">
+
+        <span class="numero-etapa">03</span>
+        <h2>Resumo do pedido</h2>
+
+        <div id="itensResumo">
+          <p>Carregando seus itens...</p>
+        </div>
+
+        <div class="linha-total">
+          <span>Total do pedido</span>
+          <strong id="totalResumo">R$ 0,00</strong>
+        </div>
+
+        <button
+          type="submit"
+          form="formPagamento"
+          id="btnFinalizar"
+        >
+          Confirmar pedido →
+        </button>
+
+        <p class="aviso-pagamento">
+          Confira seus dados antes de confirmar.
+        </p>
+
+        <p id="mensagemPagamento" role="status"></p>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>DEVORA — Uma boa experiência começa à mesa.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="pagamento.js"></script>
+
+</body>
+</html>

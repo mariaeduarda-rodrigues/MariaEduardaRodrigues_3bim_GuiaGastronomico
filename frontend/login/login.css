@@ -1,0 +1,287 @@
+/* ==========================================================
+   BASE
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --vinho: #5a1a16;
+  --vinho-escuro: #2b0b09;
+  --dourado: #c9a24b;
+  --dourado-claro: #e6cd8f;
+  --fundo: #faf6ef;
+  --texto: #2a2522;
+  --suave: #756b63;
+  --borda: #eadfcb;
+  --titulo: "Cormorant Garamond", Georgia, serif;
+  --corpo: "Jost", Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--corpo);
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+/* ==========================================================
+   CABEÇALHO
+   ========================================================== */
+
+.topo-login {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 7%;
+  background: #fff;
+  box-shadow: 0 3px 20px #2b0b090c;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--vinho);
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--dourado);
+  font: 700 30px var(--titulo);
+  color: var(--dourado);
+}
+
+.marca strong {
+  display: block;
+  font: 700 20px var(--titulo);
+  letter-spacing: 4px;
+}
+
+.marca small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--suave);
+}
+
+.topo-login nav {
+  display: flex;
+  gap: 26px;
+}
+
+.topo-login nav a {
+  font: 500 12px var(--corpo);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--texto);
+}
+
+.topo-login nav a:hover {
+  color: var(--dourado);
+}
+
+/* ==========================================================
+   CARTÃO DE LOGIN
+   ========================================================== */
+
+.login-container {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 40px 18px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-top: 3px solid var(--dourado);
+  box-shadow: 0 10px 40px #2b0b0914;
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 1.5rem;
+  font: 600 38px var(--titulo);
+  color: var(--vinho);
+}
+
+/* ==========================================================
+   FORMULÁRIO
+   ========================================================== */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--suave);
+}
+
+input {
+  padding: 0.75rem;
+  border: 1px solid var(--borda);
+  background: #fff;
+  font: 1rem var(--corpo);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: var(--dourado);
+}
+
+.saudacao {
+  margin-bottom: 0.4rem;
+  font: 600 22px var(--titulo);
+  text-align: center;
+  color: var(--vinho);
+}
+
+/* ==========================================================
+   BOTÕES
+   ========================================================== */
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-dourado {
+  padding: 0.8rem;
+  border: 0;
+  font: 600 12px var(--corpo);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--vinho);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--vinho-escuro);
+}
+
+.btn-secondary {
+  width: 40%;
+  background: #eee6d8;
+  color: var(--texto);
+}
+
+.btn-secondary:hover {
+  background: var(--borda);
+}
+
+.btn-dourado {
+  width: 100%;
+  background: var(--dourado);
+  color: var(--vinho-escuro);
+}
+
+.btn-dourado:hover {
+  background: var(--dourado-claro);
+}
+
+/* ==========================================================
+   MENSAGENS E AUXILIARES
+   ========================================================== */
+
+.erro-msg {
+  min-height: 1.2rem;
+  margin-top: 1rem;
+  font-size: 13px;
+  color: #b3261e;
+}
+
+.ok-msg {
+  color: #2e7d32;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================
+   RECUPERAÇÃO DE SENHA
+   ========================================================== */
+
+.texto-ajuda {
+  margin-bottom: 1.2rem;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--suave);
+}
+
+.link-esqueci {
+  align-self: center;
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--vinho);
+}
+
+.link-esqueci:hover {
+  color: var(--dourado);
+}
+
+/* ==========================================================
+   RODAPÉ
+   ========================================================== */
+
+.rodape-login {
+  padding: 22px 8%;
+  background: #210806;
+  color: #cfc1b5;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ==========================================================
+   RESPONSIVO
+   ========================================================== */
+
+@media (max-width: 560px) {
+  .topo-login {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .login-card {
+    padding: 2rem 1.4rem;
+  }
+}
+/* Botão "Esqueci minha senha" (é um <button> com cara de link) */
+button.link-esqueci {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--corpo);
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova senha - DEVORA</title>
+    <link rel="stylesheet" href="/frontend/login/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="topo-login">
+        <a class="marca" href="/frontend/cliente/cliente.html">
+            <span class="marca-simbolo">D</span>
+            <span><strong>DEVORA</strong><small>GUIA GASTRONÔMICO</small></span>
+        </a>
+        <nav aria-label="Navegação">
+            <a href="/frontend/cliente/cliente.html">Voltar à loja</a>
+            <a href="/frontend/login/login.html">Entrar</a>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <h2>Criar nova senha</h2>
+
+            <form id="formRedefinir">
+                <div class="form-group">
+                    <label for="novaSenha">Nova senha</label>
+                    <input type="password" id="novaSenha" minlength="6" placeholder="Mínimo de 6 caracteres" required autocomplete="new-password">
+                    <label for="confirmaSenha">Repita a nova senha</label>
+                    <input type="password" id="confirmaSenha" minlength="6" placeholder="Repita a senha" required autocomplete="new-password">
+                    <button type="submit" id="btnSalvar" class="btn-primary">Salvar nova senha</button>
+                </div>
+                <p id="mensagem" class="erro-msg" role="alert"></p>
+            </form>
+
+            <a class="link-esqueci" href="/frontend/login/login.html">← Voltar ao login</a>
+        </section>
+    </main>
+
+    <footer class="rodape-login">
+        <p>Maria Eduarda Rodrigues Ferreira — Turma M32 — 2026</p>
+    </footer>
+
+    <script src="/frontend/login/recuperar.js" defer></script>
+</body>
+</html>

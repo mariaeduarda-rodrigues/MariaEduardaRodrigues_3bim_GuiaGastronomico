@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - DEVORA</title>
+    <link rel="stylesheet" href="/frontend/login/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="topo-login">
+        <a class="marca" href="/frontend/cliente/cliente.html">
+            <span class="marca-simbolo">D</span>
+            <span><strong>DEVORA</strong><small>GUIA GASTRONÔMICO</small></span>
+        </a>
+        <nav aria-label="Navegação">
+            <a href="/frontend/cliente/cliente.html">Voltar à loja</a>
+            <a href="/frontend/cliente/cliente.html?cadastro=1">Criar conta</a>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <h2>Acesso ao sistema</h2>
+
+            <form id="formLogin">
+                <!-- Etapa 1: E-mail -->
+                <div id="etapaEmail" class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seuemail@exemplo.com" required autocomplete="email">
+                    <button type="button" id="btnVerificarEmail" class="btn-primary">Avançar</button>
+                </div>
+
+                <!-- Etapa 2: Senha (oculta por padrão) -->
+                <div id="etapaSenha" class="form-group hidden">
+                    <p id="saudacaoUsuario" class="saudacao"></p>
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Sua senha" autocomplete="current-password">
+
+                    <div class="btn-group">
+                        <button type="button" id="btnVoltar" class="btn-secondary">Voltar</button>
+                        <button type="submit" id="btnEntrar" class="btn-primary">Entrar</button>
+                    </div>
+                    <button type="button" id="btnEsqueci" class="link-esqueci">Esqueci minha senha</button>
+                </div>
+
+                <!-- Etapa 2b: colar o link recebido por e-mail -->
+                <div id="etapaRecuperar" class="form-group hidden">
+                    <p class="saudacao">Recuperar senha</p>
+                    <p id="textoRecuperar" class="texto-ajuda"></p>
+                    <label for="linkRecuperacao">Link recebido por e-mail</label>
+                    <input type="text" id="linkRecuperacao" placeholder="Cole aqui o link completo" autocomplete="off">
+
+                    <div class="btn-group">
+                        <button type="button" id="btnVoltarRecuperar" class="btn-secondary">Voltar</button>
+                        <button type="submit" id="btnUsarLink" class="btn-primary">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Etapa 2c: definir a nova senha -->
+                <div id="etapaNovaSenha" class="form-group hidden">
+                    <p class="saudacao">Criar nova senha</p>
+                    <label for="novaSenha">Nova senha</label>
+                    <input type="password" id="novaSenha" placeholder="Mínimo de 6 caracteres" autocomplete="new-password">
+                    <label for="confirmaSenha">Repita a nova senha</label>
+                    <input type="password" id="confirmaSenha" placeholder="Repita a senha" autocomplete="new-password">
+
+                    <div class="btn-group">
+                        <button type="button" id="btnCancelarNova" class="btn-secondary">Cancelar</button>
+                        <button type="submit" id="btnSalvarSenha" class="btn-primary">Salvar senha</button>
+                    </div>
+                </div>
+
+                <!-- Etapa 3: só aparece para quem é cliente E funcionário -->
+                <div id="etapaPerfil" class="form-group hidden">
+                    <p class="saudacao">Você é cliente e funcionário.<br>Como deseja entrar?</p>
+                    <button type="button" id="btnComoCliente" class="btn-primary">Entrar como cliente</button>
+                    <button type="button" id="btnComoAdmin" class="btn-dourado">Entrar como administrador</button>
+                </div>
+
+                <p id="mensagemErro" class="erro-msg" role="alert"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="rodape-login">
+        <p>Maria Eduarda Rodrigues Ferreira — Turma M32 — 2026</p>
+    </footer>
+
+    <script src="/frontend/login/login.js" defer></script>
+</body>
+</html>

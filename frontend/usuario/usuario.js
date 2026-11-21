@@ -417,54 +417,47 @@ if (dataNascimento > hoje) {
                 // Trata Cliente
                 if (document.getElementById('checkboxCliente').checked) {
                     const respVerifCli = await fetch(caminhoCliente);
-                    if (respVerifCli.status === 404) {
-                        await fetch(`${API_BASE_URL}/cliente`, {
-                            method: 'POST',
+                    const existeCli = respVerifCli.status !== 404;
+                    const respCli = await fetch(
+                        existeCli ? caminhoCliente : `${API_BASE_URL}/cliente`,
+                        {
+                            method: existeCli ? 'PUT' : 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(cliente)
-                        });
-                    } else {
-                        await fetch(caminhoCliente, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(cliente)
-                        });
+                        }
+                    );
+                    if (!respCli.ok) {
+                        const d = await respCli.json().catch(() => ({}));
+                        throw new Error('Erro ao salvar cliente: ' + (d.mensagem || d.error || respCli.status));
                     }
                 } else {
-                    try {
-                        const respCli = await fetch(caminhoCliente, { method: 'DELETE' });
-                        const dataCli = await respCli.json().catch(() => ({}));
-                        if (respCli.status === 409 || dataCli.sucesso === false) {
-                            alert(dataCli.mensagem || 'Não foi possível remover o cliente');
-                            document.getElementById('checkboxCliente').checked = true;
-                        }
-                    } catch (error) {
-                        console.error('Erro ao excluir cliente:', error);
+                    const respCli = await fetch(caminhoCliente, { method: 'DELETE' });
+                    const dataCli = await respCli.json().catch(() => ({}));
+                    if (respCli.status === 409 || dataCli.sucesso === false) {
+                        alert(dataCli.mensagem || 'Não foi possível remover o cliente');
+                        document.getElementById('checkboxCliente').checked = true;
                     }
                 }
 
                 // Trata Funcionário
                 if (document.getElementById('checkboxFuncionario').checked) {
                     const respVerifFunc = await fetch(caminhoFunc);
-                    const dataVerifFunc = await respVerifFunc.json().catch(() => ({}));
-
-                    if (respVerifFunc.status === 404 || !dataVerifFunc.sucesso) {
-                        await fetch(`${API_BASE_URL}/funcionario`, {
-                            method: 'POST',
+                    const existeFunc = respVerifFunc.status !== 404;
+                    const respFunc = await fetch(
+                        existeFunc ? caminhoFunc : `${API_BASE_URL}/funcionario`,
+                        {
+                            method: existeFunc ? 'PUT' : 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(funcionario)
-                        });
-                    } else {
-                        await fetch(caminhoFunc, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(funcionario)
-                        });
+                        }
+                    );
+                    if (!respFunc.ok) {
+                        const d = await respFunc.json().catch(() => ({}));
+                        throw new Error('Erro ao salvar funcionário: ' + (d.mensagem || d.error || respFunc.status));
                     }
                 } else {
                     const respVerifFunc = await fetch(caminhoFunc);
-                    const dataVerifFunc = await respVerifFunc.json().catch(() => ({}));
-                    if (respVerifFunc.status === 200 && dataVerifFunc.sucesso) {
+                    if (respVerifFunc.ok) {
                         await fetch(caminhoFunc, { method: 'DELETE' });
                     }
                 }

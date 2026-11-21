@@ -12,11 +12,30 @@ const categoriaRoutes = require('./routes/categoriaRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const funcionarioRoutes = require('./routes/funcionarioRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
+const loginRoutes = require('./routes/loginRoutes');
+const pedidoRoutes = require('./routes/pedidoRoutes');
+const cookieParser = require('cookie-parser');
+const {
+  verificaFuncionarioApi,
+  verificaFuncionarioPagina,
+  leituraPublica
+} = require('./middlewares/authMiddleware');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser(process.env.SESSION_SECRET || 'devora-troque-este-segredo')); // lê os cookies (assinados)
+
+// Não expõe o código do servidor nem o script do banco pelo navegador
+app.use(['/backend', '/guia_gastronomico.sql'], (req, res) => res.status(404).end());
+
+// Telas de administração: só funcionário logado acessa
+app.use(
+  ['/frontend/admin', '/frontend/menu', '/frontend/usuario', '/frontend/prato',
+   '/frontend/categoria', '/frontend/medida', '/frontend/funcionario'],
+  verificaFuncionarioPagina
+);
 
 // Servir todos os arquivos do projeto
 app.use(express.static(path.join(__dirname, '..')));
@@ -33,12 +52,14 @@ app.use(
 );
 
 // Rotas
-app.use('/prato', pratoRoutes);
-app.use('/medida', medidaRoutes);
-app.use('/categoria', categoriaRoutes);
-app.use('/cliente', clienteRoutes);
-app.use('/funcionario', funcionarioRoutes);
-app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
+app.use('/prato', leituraPublica, pratoRoutes);
+app.use('/medida', leituraPublica, medidaRoutes);
+app.use('/categoria', leituraPublica, categoriaRoutes);
+app.use('/cliente', verificaFuncionarioApi, clienteRoutes);
+app.use('/funcionario', verificaFuncionarioApi, funcionarioRoutes);
+app.use('/usuario', verificaFuncionarioApi, usuarioRoutes);
+app.use('/pedido', pedidoRoutes);
 
 const PORT = process.env.PORT || 3000;
 

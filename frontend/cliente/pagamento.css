@@ -1,0 +1,641 @@
+/* ==========================================================
+   BASE E VARIÁVEIS (IDENTIDADE DEVORA)
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --vinho: #5a1a16;
+  --vinho-escuro: #2b0b09;
+  --dourado: #c9a24b;
+  --dourado-claro: #e6cd8f;
+  --fundo: #faf6ef;
+  --texto: #2a2522;
+  --suave: #756b63;
+  --branco: #fff;
+  --borda: #eadfcb;
+  --titulo: "Cormorant Garamond", Georgia, serif;
+  --corpo: "Jost", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--corpo);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+/* ==========================================================
+   CABEÇALHO
+   ========================================================== */
+
+.topo-pagamento {
+  height: 88px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--branco);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 3px 20px #2b0b090c;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--vinho);
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--dourado);
+  display: grid;
+  place-items: center;
+  font: 700 30px var(--titulo);
+  color: var(--dourado);
+}
+
+.marca strong {
+  display: block;
+  font: 700 20px var(--titulo);
+  letter-spacing: 4px;
+}
+
+.marca small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--suave);
+}
+
+.voltar {
+  font: 500 12px var(--corpo);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--vinho);
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.voltar:hover {
+  color: var(--dourado);
+  border-color: var(--borda);
+  transform: translateX(-3px);
+}
+
+/* ==========================================================
+   ESTRUTURA PRINCIPAL E TÍTULO
+   ========================================================== */
+
+.pagina-pagamento {
+  flex: 1;
+  width: 100%;
+  max-width: 1120px;
+  margin: 54px auto 80px;
+  padding: 0 26px;
+}
+
+.titulo-pagina {
+  text-align: center;
+  margin-bottom: 44px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--borda);
+  position: relative;
+}
+
+.titulo-pagina::after {
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  transform: translateX(-50%);
+  background: var(--fundo);
+  color: var(--dourado);
+  font-size: 11px;
+  padding: 0 14px;
+}
+
+.titulo-pagina span {
+  display: block;
+  color: var(--dourado);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.titulo-pagina h1 {
+  font: 600 clamp(38px, 5vw, 52px)/1.05 var(--titulo);
+  color: var(--vinho);
+}
+
+.titulo-pagina p {
+  font-size: 14px;
+  color: var(--suave);
+  margin-top: 8px;
+}
+
+.conteudo-pagamento {
+  display: grid;
+  grid-template-columns: 1.35fr 0.95fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ==========================================================
+   ETAPAS DO FORMULÁRIO (ENTREGA E PAGAMENTO)
+   ========================================================== */
+
+#formPagamento {
+  display: grid;
+  gap: 24px;
+}
+
+.bloco-pagamento,
+.resumo-pedido {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  padding: 34px 36px;
+  box-shadow: 0 10px 30px #2b0b090b;
+}
+
+.bloco-pagamento {
+  border-top: 3px solid var(--dourado);
+}
+
+.numero-etapa {
+  display: inline-block;
+  font: 600 11px var(--corpo);
+  letter-spacing: 2.5px;
+  color: var(--dourado);
+  border-bottom: 1px solid var(--dourado);
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+}
+
+.bloco-pagamento h2,
+.resumo-pedido h2 {
+  font: 600 32px/1.1 var(--titulo);
+  color: var(--vinho);
+}
+
+.bloco-pagamento > p {
+  font-size: 13px;
+  color: var(--suave);
+  margin: 4px 0 22px;
+}
+
+.bloco-pagamento > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--suave);
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.bloco-pagamento input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--borda);
+  background: var(--branco);
+  font: 14px var(--corpo);
+  color: var(--texto);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.bloco-pagamento input[type="text"]:focus {
+  outline: none;
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 3px #c9a24b22;
+}
+
+.bloco-pagamento input[readonly] {
+  background: #f5efe4;
+  color: var(--suave);
+  cursor: default;
+}
+
+/* ==========================================================
+   OPÇÕES DE PAGAMENTO
+   ========================================================== */
+
+.opcoes-pagamento {
+  display: grid;
+  gap: 12px;
+}
+
+.opcao-pagamento {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 18px;
+  border: 1px solid var(--borda);
+  background: var(--branco);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.opcao-pagamento:hover {
+  border-color: var(--dourado);
+  background: #fdfaf4;
+  transform: translateY(-1px);
+}
+
+.opcao-pagamento input[type="radio"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--vinho);
+  cursor: pointer;
+}
+
+.opcao-pagamento span strong {
+  display: block;
+  font: 600 15px var(--corpo);
+  color: var(--vinho);
+}
+
+.opcao-pagamento span small {
+  display: block;
+  font-size: 12px;
+  color: var(--suave);
+}
+
+.icone-pagamento {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  display: grid;
+  place-items: center;
+  font: 600 14px var(--titulo);
+  color: var(--dourado);
+  transition: all 0.2s;
+}
+
+.opcao-pagamento:has(input:checked) {
+  border-color: var(--vinho);
+  background: #faf3e8;
+  box-shadow: inset 3px 0 0 var(--dourado), 0 6px 18px #2b0b090d;
+}
+
+.opcao-pagamento:has(input:checked) .icone-pagamento {
+  background: var(--vinho);
+  border-color: var(--vinho);
+  color: var(--dourado-claro);
+}
+
+/* ==========================================================
+   PAINÉIS DINÂMICOS (PIX E CARTÃO)
+   ========================================================== */
+
+.oculto {
+  display: none !important;
+}
+
+.painel-metodo {
+  margin-top: 20px;
+  padding: 24px;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--dourado);
+  animation: surgirPainel 0.25s ease;
+}
+
+@keyframes surgirPainel {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pix-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--dourado);
+  margin-bottom: 6px;
+}
+
+/* --- PIX --- */
+
+.pix-conteudo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.pix-moldura {
+  flex-shrink: 0;
+  padding: 12px;
+  background: var(--branco);
+  border: 1px solid var(--dourado);
+  box-shadow: 0 6px 18px #2b0b090d;
+}
+
+#qrcodePix img,
+#qrcodePix canvas {
+  display: block;
+}
+
+.pix-info h3 {
+  font: 600 24px/1.1 var(--titulo);
+  color: var(--vinho);
+  margin-bottom: 6px;
+}
+
+.pix-info p {
+  font-size: 13px;
+  color: var(--suave);
+  margin-bottom: 14px;
+}
+
+.pix-info label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--suave);
+  margin-bottom: 5px;
+}
+
+.pix-copiar-grupo {
+  display: flex;
+  gap: 8px;
+}
+
+.pix-copiar-grupo input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 12px;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  color: var(--suave);
+}
+
+.btn-copiar {
+  padding: 0 16px;
+  background: var(--dourado);
+  color: var(--vinho-escuro);
+  border: 0;
+  font: 600 11px var(--corpo);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-copiar:hover {
+  background: var(--dourado-claro);
+}
+
+/* --- CARTÃO --- */
+
+.grid-cartao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.col-total {
+  grid-column: 1 / -1;
+}
+
+.campo-cartao label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--suave);
+  margin-bottom: 5px;
+}
+
+.campo-cartao input,
+.campo-cartao select {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--borda);
+  background: var(--branco);
+  font: 14px var(--corpo);
+  color: var(--texto);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo-cartao input:focus,
+.campo-cartao select:focus {
+  outline: none;
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 3px #c9a24b22;
+}
+
+#nomeCartao {
+  text-transform: uppercase;
+}
+
+/* ==========================================================
+   RESUMO DO PEDIDO (COLUNA LATERAL)
+   ========================================================== */
+
+.resumo-pedido {
+  position: sticky;
+  top: 112px;
+  border-top: 3px solid var(--vinho);
+  background: #fdfbf7;
+}
+
+#itensResumo {
+  margin: 20px 0 8px;
+  border-top: 1px solid var(--borda);
+}
+
+#itensResumo > p {
+  font-size: 13px;
+  color: var(--suave);
+  padding: 18px 0;
+}
+
+#itensResumo > div,
+.item-resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 13px;
+  color: var(--texto);
+}
+
+#itensResumo small {
+  color: var(--suave);
+  font-size: 12px;
+}
+
+.linha-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 18px 0 22px;
+  border-top: 1px solid var(--dourado);
+  margin-top: 6px;
+}
+
+.linha-total span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+#totalResumo {
+  font: 700 28px/1 var(--titulo);
+  color: var(--vinho);
+}
+
+#btnFinalizar {
+  width: 100%;
+  padding: 15px 22px;
+  background: var(--vinho);
+  color: var(--branco);
+  border: 1px solid var(--vinho);
+  font: 600 12px var(--corpo);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+#btnFinalizar:hover:not(:disabled) {
+  background: var(--vinho-escuro);
+  transform: translateY(-1px);
+}
+
+#btnFinalizar:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.aviso-pagamento {
+  font-size: 11px;
+  color: var(--suave);
+  text-align: center;
+  margin-top: 12px;
+}
+
+#mensagemPagamento {
+  min-height: 20px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--vinho);
+}
+
+#mensagemPagamento.sucesso {
+  color: #2e7d32;
+}
+
+#mensagemPagamento.erro {
+  color: #b3261e;
+}
+
+/* ==========================================================
+   RODAPÉ
+   ========================================================== */
+
+footer {
+  padding: 30px 8%;
+  background: #210806;
+  color: #cfc1b5;
+  text-align: center;
+}
+
+footer p {
+  font: italic 18px var(--titulo);
+}
+
+/* ==========================================================
+   RESPONSIVO — TABLET E CELULAR
+   ========================================================== */
+
+@media (max-width: 850px) {
+  .topo-pagamento {
+    padding: 0 4%;
+    height: 78px;
+  }
+
+  .pagina-pagamento {
+    margin: 36px auto 60px;
+  }
+
+  .conteudo-pagamento {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-pedido {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .topo-pagamento {
+    height: auto;
+    padding: 14px 5%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .marca strong {
+    font-size: 17px;
+  }
+
+  .bloco-pagamento,
+  .resumo-pedido {
+    padding: 26px 20px;
+  }
+
+  .bloco-pagamento h2,
+  .resumo-pedido h2 {
+    font-size: 28px;
+  }
+
+  .pix-conteudo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .grid-cartao {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esqueci minha senha - DEVORA</title>
+    <link rel="stylesheet" href="/frontend/login/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="topo-login">
+        <a class="marca" href="/frontend/cliente/cliente.html">
+            <span class="marca-simbolo">D</span>
+            <span><strong>DEVORA</strong><small>GUIA GASTRONÔMICO</small></span>
+        </a>
+        <nav aria-label="Navegação">
+            <a href="/frontend/cliente/cliente.html">Voltar à loja</a>
+            <a href="/frontend/login/login.html">Entrar</a>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <h2>Esqueci minha senha</h2>
+            <p class="texto-ajuda">Informe o e-mail da sua conta e enviaremos um link para você criar uma nova senha.</p>
+
+            <form id="formEsqueci">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seuemail@exemplo.com" required autocomplete="email">
+                    <button type="submit" id="btnEnviar" class="btn-primary">Enviar link</button>
+                </div>
+                <p id="mensagem" class="erro-msg" role="alert"></p>
+            </form>
+
+            <a class="link-esqueci" href="/frontend/login/login.html">← Voltar ao login</a>
+        </section>
+    </main>
+
+    <footer class="rodape-login">
+        <p>Maria Eduarda Rodrigues Ferreira — Turma M32 — 2026</p>
+    </footer>
+
+    <script src="/frontend/login/recuperar.js" defer></script>
+</body>
+</html>
